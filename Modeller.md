@@ -854,3 +854,61 @@ flowchart TD
 ---
 
 *Genereret fra multi-database agent-arkitektur · Splittet Postgres-model*
+```mermaid
+flowchart TD
+    Jira(["🔔 Jira Task\nOrchestrator Trigger"])
+
+    CR["customer_request_skill\n— Agent —"]
+    PO["po_agent_skill\n— Agent —"]
+    CTX["context_agent_skill\n— Agent —"]
+    CA["coding_assistant_skill\n— Assistant —"]
+    DEV{"Developer\ngodkender?"}
+    TDD["tdd_agent_skill\n— Agent / Sandkasse —"]
+    RETRY{"Retry\nforsøg?"}
+    BLOCKED(["🚨 Blocked\nEskaleret til menneske"])
+    PRa["pr_agent_skill\n— Agent —"]
+    RA["review_assistant_skill\n— Assistant / Supervisor —"]
+    RISK{"Risiko-\nniveau?"}
+    RA_AUTO["Auto-godkend\nSupervisor"]
+    REVIEWER{"Reviewer\nbeslutning?"}
+    DA["delivery_assistant_skill\n— Assistant —"]
+    PO_GATE{"PO\ngodkender?"}
+    DONE(["✅ Deployed"])
+
+    Jira --> CR
+    CR -->|StructuredSpec| PO
+    PO -->|ContextPackage| CTX
+    CTX -->|EnrichedContext| CA
+    CA -->|Præsenter CodeDraft| DEV
+    DEV -->|"Afvis + feedback"| CA
+    DEV -->|Godkend| TDD
+
+    TDD -->|"pass — coverage ≥80%"| PRa
+    TDD -->|fail| RETRY
+    RETRY -->|"Forsøg 1–3"| CA
+    RETRY -->|"Forsøg 4"| BLOCKED
+
+    PRa -->|PullRequest| RA
+    RA --> RISK
+    RISK -->|Lav-risiko| RA_AUTO
+    RISK -->|Høj-risiko| REVIEWER
+    RA_AUTO --> DA
+    REVIEWER -->|approve| DA
+    REVIEWER -->|changes| CA
+
+    DA -->|Præsenter DeliveryPackage| PO_GATE
+    PO_GATE -->|"Afvis"| DA
+    PO_GATE -->|Godkend| DONE
+
+    classDef agent fill:#1e3a5f,color:#ffffff,stroke:#3b82f6,stroke-width:2px
+    classDef assistant fill:#3b1f5e,color:#ffffff,stroke:#a855f7,stroke-width:2px
+    classDef gate fill:#1a3a2a,color:#ffffff,stroke:#22c55e,stroke-width:2px
+    classDef terminal fill:#374151,color:#ffffff,stroke:#6b7280,stroke-width:2px
+    classDef blocked fill:#4a1515,color:#ffffff,stroke:#ef4444,stroke-width:2px
+
+    class CR,PO,CTX,TDD,PRa,RA_AUTO agent
+    class CA,RA,DA assistant
+    class DEV,RISK,REVIEWER,RETRY,PO_GATE gate
+    class Jira,DONE terminal
+    class BLOCKED blocked
+```
