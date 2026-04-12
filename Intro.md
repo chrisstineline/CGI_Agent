@@ -90,16 +90,29 @@ mindmap
 
 ## Grundregler for Agents og Assistants
 
-Alle AI-implementationer som Agent eller Assistant skal følge en relativt simpel opsætning. 
+Alle AI-implementationer som Agent eller Assistant *burde* følge en relativt simpel opsætning. 
 
 | Krav          | Beskrivelse    |
 | ------------- | ------------------ |
 | Må/ Må ikke   | AI'en får beskrivelser for, hvad den må og ikke må. |
-|Triggers| Opsatte triggers aktiverer processer|
+|Triggers| Opsatte triggers (Cron jobs) aktiverer processer|
 | Input/ output | AI'en får beskrevet hvad der må komme ind og ud, hvor det må komme fra, hvornår og hvordan. Det er afgrænset efter behov.<br>Der skrives til log med timestamp og hash på in- og output. (Del af Auditrail) |
-| Logs | AI'en skal producere logs på forslag og ændringer. Audit-trail for dets arbejde skal være dokumenterbart og direkte at følge. |
+| Logs | AI'en skal producere logs (Struktureret DB updates) på forslag og ændringer. Audit-trail for dets arbejde skal være dokumenterbart og direkte at følge. |
 | Breakers| AI'en stopper ved for mange fejl, regelbrud eller menneske input.|
 | Alerts | AI'en giver information på unormaler der falder uden for den angivne struktur |
 | Metrics | AI'en har rater for latency, fejl, retry, menneske-intervention-rate |
 | Modtager | Assigned modtager på input/ output med ovenstående inkluderet |
 
+------ 
+
+# Kontekst matters
+**ALLE** opgaver løses bedst, hvis der er givet proper kontekst. En AI udfører opgaver bedst, hvis de har "fuld" kontekst af:
+  - Opgavens mål
+    - Forventet indhold og best practice til at løse opgaven
+  - Opgavens rammer
+    - Tekst til en email er forskellig fra tekst til dokumentationen af kode
+    - Referencer til tidligere opgaver løst eller eksempler
+  - Regler og forklaring
+    - Hvorfor/ hvorfor ikke pga. af x, y, z
+
+Det er fundamentet for hvad der står i Advanceret og Postgres_løsningen. Kontekst af opgaver og hvad modellerne skal/ kan. 
