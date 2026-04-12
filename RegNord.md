@@ -9,7 +9,10 @@ Write is to RegNord.md
 
 > **Note**: Læg mærke til modellens valgte problem. Patientkurvedata/ journalopdateringer er forsinket. Noget der for nyligt et blevet rapporteret til *udvikler* i RegNord CGI team. Det er ikke uden betydning. Jeg har ikke instrureret om dette problem. Men det er super specifikt. Modellen kunne have valgt at bruge et fiktivt scenarie, der omhandlede at dataene fx. var fejlagtigt returneret, eller systemet ikke virkede overhovedet. 
 Det er ikke uden merit, at spekulere i, om modellen har brugt dets interne lærte viden -> den har i kontekst af min prompt, fundet et *specifikt reelt* scenarie, der passer 1:1. Den har lært, og nu sladrer om det. Altså; en udvikler eller en ved RegNord har siddet med dette problem, og givet det til en model, der nu har "gemt" det som "lært" information.
-> - Det er rent spekulationer, men jeg har en fornemmelse af, at virkeligheden er den mest logiske. Det er et (potentielt) problem...  
+> - Det er rent spekulationer, men jeg har en fornemmelse af, at virkeligheden er den mest logiske. Det er et (potentielt) problem...
+
+> Note note: det er **ikke** nødvendigvis det aktuelle problem, en anden mulighed er også: 
+Modellen er trænet på kode der ligger på Github. Microsoft ejer Github, og deres modeller og alle de andre, er semi-indavlet efterhånden. Eksemplet *kan* være "lært" baseret på "fair"-vis, givet træningsmaterialet til kodning er repo's. Jeg har potentielt bare ramt nogle triggers på modellens viden + logik + scenarie. 
 
 ## Kontekst
 
