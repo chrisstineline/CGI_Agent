@@ -8,16 +8,15 @@ Når systemet vokser, introducerer man en **pipeline af agenter og assistenter**
 
 ##  Definitioner
 
-| Rolle                                 | Beskrivelse                                                                                                                                                                                                                                                                                                                                                                                                 |
-| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Agent                                 | Automatisk, regelstyret, kører autonomt og er ansvarlige for et specifikt, afgrænset output. De har adgang til definerede ressourcer (kodebase, databaser, scripts) og handler inden for deres SKILL.md-kontrakt. Eksempler: customer-request-agent, TDD-agent, test-runner-agent, pull-request-agent.                                                                                                      |
-| Assistant                             | Det er en co-pilot-agenter, der kræver menneskelig godkendelse på kritiske beslutninger. De præsenterer muligheder, forbereder udkast og oversætter teknisk output til forståeligt format. Eksempler: coding-assistant, review-assistant, delivery-assistant.                                                                                                                                               |
-| Pipeline                              | Kæde af processer                                                                                                                                                                                                                                                                                                                                                                                           |
-| Orchestrator                          | Starter flow og koordinerer flows. I praksis er det typisk løsninger som f.eks. Jira, en event-bus eller en timer, der trigger pipelines. Orchestratoren kender hele flowet, men udfører ingen opgaver selv — den delegerer til agents- og assistants-laget.                                                                                                                                                |
-| State/ Memory                         | Persistenslag som alle agenter og assistenter kan læse og skrive til. Det gemmer opgave-historik, estimater, kodekontekst og beslutninger. Jo mere systemet kører, jo bedre bliver det — estimater, forslag og diagnostik forbedres automatisk over tid.                                                                                                                                                    |
-| Shared Agent Protocol (SAP eller A2A) | Et fælles kommunikationsformat som alle agenter og assistenter taler. ASP definerer payload-struktur, fejlhåndtering og kontekst-overlevering. Uden en fælles protokol ville hver agent skulle håndtere kommunikation individuelt — ASP er limet i multi-agent-systemet.                                                                                                                                    |
-| MCP (Model Context Protocol)          | Fokuserer på hvordan en Agent har adgang til redskaber og data.<br>Det kan være eksterne redskaber, og nye informationer udenfor deres originale træningsdata. <br>En MCP kan sættes op til et sikkert og lukket miljø, hvor der ikke deles information ud. Dette skal implementeres som en del af sikkerheden for MCP'en, for f.eks. at sikre TLS, for at sikre mod on-path angreb og reverse engineering. |
-| Bruger / Kunde                        | Brugeren er både trigger og modtager. En kunde opretter en opgave (trigger), og modtager et valideret resultat til sidst (output). Udvikleren og PO er interne brugere der interagerer med assistents-laget undervejs — f.eks. godkender PR eller prioritering.                                                                                                                                             |
+| Rolle ||
+| ------- | ------|
+| Agent | Automatisk, regelstyret, kører autonomt og er ansvarlige for et specifikt, afgrænset output. De har adgang til definerede ressourcer (kodebase, databaser, scripts) og handler inden for deres SKILL.md-kontrakt. Eksempler: customer-request-agent, TDD-agent, test-runner-agent, pull-request-agent. |
+| Assistant | Det er en co-pilot-agenter, der kræver menneskelig godkendelse på kritiske beslutninger. De præsenterer muligheder, forbereder udkast og oversætter teknisk output til forståeligt format. Eksempler: coding-assistant, review-assistant, delivery-assistant. |
+| Orchestrator | Starter flow og koordinerer flows. I praksis er det typisk løsninger som f.eks. Jira, en event-bus eller en timer, der trigger pipelines. Orchestratoren kender hele flowet, men udfører ingen opgaver selv — den delegerer til agents- og assistants-laget. |
+| State/ Memory  | Persistenslag som alle agenter og assistenter kan læse og skrive til. Det gemmer opgave-historik, estimater, kodekontekst og beslutninger. Jo mere systemet kører, jo bedre bliver det — estimater, forslag og diagnostik forbedres automatisk over tid. |
+| Shared Agent Protocol (SAP eller A2A) | Et fælles kommunikationsformat som alle agenter og assistenter taler. ASP definerer payload-struktur, fejlhåndtering og kontekst-overlevering. Uden en fælles protokol ville hver agent skulle håndtere kommunikation individuelt — ASP er limet i multi-agent-systemet. |
+| MCP (Model Context Protocol) | Fokuserer på hvordan en Agent har adgang til redskaber og data.<br>Det kan være eksterne redskaber, og nye informationer udenfor deres originale træningsdata. <br>En MCP kan sættes op til et sikkert og lukket miljø, hvor der ikke deles information ud. Dette skal implementeres som en del af sikkerheden for MCP'en, for f.eks. at sikre TLS, for at sikre mod on-path angreb og reverse engineering. |
+| Bruger / Kunde  | Brugeren er både trigger og modtager. En kunde opretter en opgave (trigger), og modtager et valideret resultat til sidst (output). Udvikleren og PO er interne brugere der interagerer med assistents-laget undervejs — f.eks. godkender PR eller prioritering.                                                                                                                                             |
 
 ---
 ##  Human-in-the-loop
@@ -30,7 +29,7 @@ Assistant --> Developer
 Developer --> Assistant
 Assistant --> Agent
 ```
-
+ 
  Kritisk for kvalitet og sikkerhed, fordi det kræver menneskets overview på situationen. Agenter handler automatisk, Assistants hjælper --> Mennesket beslutter. 
 
 Et loop kan gøres fuldt automatisk med kun Agenter, men det springer menneske-input over, hvor man mister muligheden for at opdage fejl, eller kontekst som AI'en ikke forstår. 
@@ -79,23 +78,25 @@ E -->|fail| D
 G -->|changes| D
 ```
 
+<br>
+<br>
+<br>
 
-
-| Handling                     | Beskrivelse                                                                                                                                                                                                                                                                                                                                                                     |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Customer Request             | Modtager Jira-opgaven og skaber et struktureret payload med:<br>*Jira-task { title, description, labels } OUTPUT: StructuredSpec { domain, modules[], language, priority }*                                                                                                                                                                                                     |
-| PO-Agent                     | Analyserer Jira-payload, evaluerer scope og opgaven risici. Samler dokumentation og historiske sprints fra State/ Memory, sender prioriteret kontekst-opgave videre:<br>*INPUT: StructuredSpec OUTPUT: ContextPackage { value_score, risk_level, refs[] }*                                                                                                                      |
-| Context Agent                | Finder det relevante kodeafsnit, API-dokumentation og dependencies fra kodebasen. Den bygger en kompakt kontekst-pakke til Coding-Assistant, så mennesket der bruger CA, ikke skal manuelt navigere koden. <br>*INPUT: ContextPackage OUTPUT: EnrichedContext { files[], apis[], patterns[] }*                                                                                  |
-| Coding-Assistant (CA)        | Implementationsforslag præsenteres til udvikleren. Udvikleren laver review, justerer og godender. Det kan kun sendes videre som godkent, ved manuelt input. <br>*INPUT: EnrichedContext OUTPUT: CodeDraft { files[], tests[], notes[] }*                                                                                                                                        |
+| Handling                     | Beskrivelse |
+| ---------------------------- | ------------------------------------- |
+| Customer Request             | Modtager Jira-opgaven og skaber et struktureret payload med:<br>*Jira-task { title, description, labels } OUTPUT: StructuredSpec { domain, modules[], language, priority }* |
+| PO-Agent                     | Analyserer Jira-payload, evaluerer scope og opgaven risici. Samler dokumentation og historiske sprints fra State/ Memory, sender prioriteret kontekst-opgave videre:<br>*INPUT: StructuredSpec OUTPUT: ContextPackage { value_score, risk_level, refs[] }*   |
+| Context Agent                | Finder det relevante kodeafsnit, API-dokumentation og dependencies fra kodebasen. Den bygger en kompakt kontekst-pakke til Coding-Assistant, så mennesket der bruger CA, ikke skal manuelt navigere koden. <br>*INPUT: ContextPackage OUTPUT: EnrichedContext { files[], apis[], patterns[] }* |
+| Coding-Assistant (CA)        | Implementationsforslag præsenteres til udvikleren. Udvikleren laver review, justerer og godender. Det kan kun sendes videre som godkent, ved manuelt input. <br>*INPUT: EnrichedContext OUTPUT: CodeDraft { files[], tests[], notes[] }*   |
 | TDD-Agent/ Assistent (TDD-A) | TDD-Agenten skriver testene ud fra CA's CodeDraft. Udvikleren er enten med manuelt hvis dette sker via en Assistent, ellers køres det automatisk gennem et loop i en isoleret sandkasse. Godkendes testene, sendes output videre til PR-Agenten. Ved fejl, sendes det tilbage til CA, loop gentages. <br>*INPUT: CodeDraft OUTPUT: TestReport { status, failures[], coverage }* |
 | PR-Agent                     | Ud fra det godkendte produkt fra TDD-A, oprettes der automatisk en Github/Jira PR, med beskrivelser og kodeændringerne. Det kan bla. tagges med holdets reviewers, så de får besked om ændringerne.<br>*INPUT: TestReport (pass) OUTPUT: PullRequest { url, reviewers[], summary }*                                                                                             |
-| Review-Assistant (RA)        | Bruger reviewers en RA, gennemgår den PR for sikkerhedsproblemer og ydeevne. Dets fund præsenteres til revieweren der bruger RA'en. Hvis reviewer finder områder der skal ændres, sendes koden tilbage til CA.<br>*INPUT: PullRequest OUTPUT: ReviewDecision { action: approve\|changes, comments[] }*                                                                          |
-| Delivery-Assistant           | Hjælper brugeren med at lave stakeholder-relevant kommunikation, release notes, statusopdateringer eller generelt summary. Sprog og detaljeniveau kan tilpasses til modtageren. PO godkender inden det sendes. <br>*INPUT: PullRequest OUTPUT: ReviewDecision { action: approve\|changes, comments[] }*                                                                         |
+| Review-Assistant (RA)        | Bruger reviewers en RA, gennemgår den PR for sikkerhedsproblemer og ydeevne. Dets fund præsenteres til revieweren der bruger RA'en. Hvis reviewer finder områder der skal ændres, sendes koden tilbage til CA.<br>*INPUT: PullRequest OUTPUT: ReviewDecision { action: approve\|changes, comments[] }*  |
+| Delivery-Assistant           | Hjælper brugeren med at lave stakeholder-relevant kommunikation, release notes, statusopdateringer eller generelt summary. Sprog og detaljeniveau kan tilpasses til modtageren. PO godkender inden det sendes. <br>*INPUT: PullRequest OUTPUT: ReviewDecision { action: approve\|changes, comments[] }* |
 
+<br>
+<br>
 
----
-
-## Eksempel: Feedback Loop (kritisk)
+## Eksempel
 
 ```mermaid
 flowchart TD
@@ -109,9 +110,13 @@ E["Update Task"]
 A --> B --> C --> D --> E --> B
 ```
 
+
  Systemet er ikke lineært – det **forbedrer sig selv løbende**. Tests kan fejle, derfor er der reviewers på opgaven, så de kan kræve rettelser. Det er et kontinuerligt feedback-loop, der kan gøre systemet mere robust over tid. 
 
 ---
+<br>
+<br>
+
 ### Fejlen: 
 Testen fejler: der bliver automatisk lavet et nyt forsøg. Derefter eskaleres fejlen til menneske-review + der laves en log på fejlen. 
 
@@ -256,6 +261,8 @@ Approved --> Deployed
 Deployed --> [*]
 ```
 
+
+
 ```
 Testing (meta-state)
   ├── UnitTesting
@@ -290,3 +297,127 @@ For at binde det hele sammen, er der formuleret et Python pseudo SkillToolset (s
 | review_assistant_skill |	Review-assistant (supervisor pattern) |
 | delivery_assistant_skill |	Delivery-assistant (PO-godkendelse) |
 
+
+<br>
+<br>
+
+## Bonus modeller
+
+| Et større database-setup
+
+```mermaid
+flowchart TD
+    EM["Email"]
+    SL["Slack"]
+    CA["Claude routing-agent <br> Klassificér · prioritér · rut"]
+
+    EM --> CA
+    SL --> CA
+
+    BUS["Event bus <br> task.created · task.updated · sync.needed · agent.done"]
+    CA --> BUS
+
+    RDB[("routing_db <br> task_entries · routing")]
+    ADB[("agent_db <br> registry · output · state")]
+    UDB[("user_db <br> user_chain · assignment")]
+    AUDB[("audit_db <br> immutable log")]
+
+    BUS --> RDB
+    BUS --> ADB
+    BUS --> UDB
+    BUS --> AUDB
+
+    SYNC(["sync scripts <br> polling · CDC · webhooks"])
+    %% CDC Change Data Capture
+
+    RDB -.-> SYNC
+    ADB -.-> SYNC
+    UDB -.-> SYNC
+    AUDB -.-> SYNC
+
+    TDD["TDD agent"]
+    CR["Code review agent"]
+    PO["PO agent"]
+    DEV["Udvikler agent"]
+
+    SYNC --> TDD
+    SYNC --> CR
+    SYNC --> PO
+    SYNC --> DEV
+
+    TDD & CR & PO & DEV -.->|agent.done| BUS
+
+    JR["Junior dev"]
+    SR["Senior developer"]
+    PROD["Product owner"]
+    QA["QA engineer"]
+
+    TDD -->|"notify"| JR
+    CR  -->|"notify"| SR
+    PO  -->|"notify"| PROD
+    DEV -->|"notify"| QA
+```
+<br>
+<br>
+<br>
+
+| Agenter i serie uden DB løsningen
+
+``` mermaid
+flowchart TD
+    Jira(["Jira Task <br> Orchestrator Trigger"])
+
+    CR["customer_request_skill <br> — Agent —"]
+    PO["po_agent_skill <br> — Agent —"]
+    CTX["context_agent_skill <br> — Agent —"]
+    CA["coding_assistant_skill <br> — Assistant —"]
+    DEV{"Developer <br> godkender?"}
+    TDD["tdd_agent_skill <br> — Agent / Sandkasse —"]
+    RETRY{"Retry <br> forsøg?"}
+    BLOCKED(["Blocked <br> Eskaleret til menneske"])
+    PRa["pr_agent_skill <br> — Agent —"]
+    RA["review_assistant_skill <br> — Assistant / Supervisor —"]
+    RISK{"Risiko- <br> niveau?"}
+    RA_AUTO["Auto-godkend <br> Supervisor"]
+    REVIEWER{"Reviewer <br> beslutning?"}
+    DA["delivery_assistant_skill\ <br> — Assistant —"]
+    PO_GATE{"PO\ <br> godkender?"}
+    DONE(["Deployed"])
+
+    Jira --> CR
+    CR -->|StructuredSpec| PO
+    PO -->|ContextPackage| CTX
+    CTX -->|EnrichedContext| CA
+    CA -->|Præsenter CodeDraft| DEV
+    DEV -->|"Afvis + feedback"| CA
+    DEV -->|Godkend| TDD
+
+    TDD -->|"pass — coverage ≥80%"| PRa
+    TDD -->|fail| RETRY
+    RETRY -->|"Forsøg 1–3"| CA
+    RETRY -->|"Forsøg 4"| BLOCKED
+
+    PRa -->|PullRequest| RA
+    RA --> RISK
+    RISK -->|Lav-risiko| RA_AUTO
+    RISK -->|Høj-risiko| REVIEWER
+    RA_AUTO --> DA
+    REVIEWER -->|approve| DA
+    REVIEWER -->|changes| CA
+
+    DA -->|Præsenter DeliveryPackage| PO_GATE
+    PO_GATE -->|"Afvis"| DA
+    PO_GATE -->|Godkend| DONE
+
+    classDef agent fill:#1e3a5f,color:#ffffff,stroke:#3b82f6,stroke-width:2px
+    classDef assistant fill:#3b1f5e,color:#ffffff,stroke:#a855f7,stroke-width:2px
+    classDef gate fill:#1a3a2a,color:#ffffff,stroke:#22c55e,stroke-width:2px
+    classDef terminal fill:#374151,color:#ffffff,stroke:#6b7280,stroke-width:2px
+    classDef blocked fill:#4a1515,color:#ffffff,stroke:#ef4444,stroke-width:2px
+
+    class CR,PO,CTX,TDD,PRa,RA_AUTO agent
+    class CA,RA,DA assistant
+    class DEV,RISK,REVIEWER,RETRY,PO_GATE gate
+    class Jira,DONE terminal
+    class BLOCKED blocked
+```
