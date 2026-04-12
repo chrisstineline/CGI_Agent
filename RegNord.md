@@ -12,7 +12,7 @@ Det er ikke uden merit, at spekulere i, om modellen har brugt dets interne lært
 > - Det er rent spekulationer, men jeg har en fornemmelse af, at virkeligheden er den mest logiske. Det er et (potentielt) problem...
 
 > Note note: det er **ikke** nødvendigvis det aktuelle problem, en anden mulighed er også: 
-Modellen er trænet på kode der ligger på Github. Microsoft ejer Github, og deres modeller og alle de andre, er semi-indavlet efterhånden. Eksemplet *kan* være "lært" baseret på "fair"-vis, givet træningsmaterialet til kodning er repo's. Jeg har potentielt bare ramt nogle triggers på modellens viden + logik + scenarie. 
+Modellen er trænet på kode der ligger på Github. Microsoft ejer Github, og deres modeller og alle de andre, er semi-indavlet efterhånden. Eksemplet *kan* være "lært" baseret på "fair"-vis, givet træningsmaterialet til kodning er repo's, eller andet "fair game" infrastruktur, som der er blevet givet adgang til. Jeg har potentielt bare ramt nogle triggers på modellens viden + logik + scenarie. 
 
 ## Kontekst
 
