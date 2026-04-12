@@ -76,7 +76,7 @@ mindmap
   Task_Types((Task Types))
     bug
       Bug_Triage_Agent
-        Junior_Dev
+        Tester_Manager
     review
       Code_Review_Agent
         Senior_Dev
