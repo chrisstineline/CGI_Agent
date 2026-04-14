@@ -69,23 +69,23 @@ flowchart TD
     START --> TPO
     START --> DEV
 
-    PO["👤 PO / Projektleder\n(ikke-teknisk)"]
+    PO["👤 PO / Projektleder <br> (ikke-teknisk)"]
     TPO["🏗️ Teknisk PO / Arkitekt"]
     DEV["💻 Udvikler / Tech Lead"]
 
-    PO --> P1["Intro.md\nHvad er agenter og hvad må de?"]
-    P1 --> P2["Lederen.md\nCFO-perspektiv: RFP fra email til indsendelse"]
-    P2 --> P3["Modeller.md\nVisuel oversigt over flowet"]
+    PO --> P1["Intro.md <br> Hvad er agenter og hvad må de?"]
+    P1 --> P2["Lederen.md <br> CFO-perspektiv: RFP fra email til indsendelse"]
+    P2 --> P3["Modeller.md <br> Visuel oversigt over flowet"]
 
-    TPO --> T1["Intro.md\nHvad er agenter og hvad må de?"]
-    T1 --> T2["Advanced.md\nFuld pipeline og governance"]
-    T2 --> T3["Postgres_løsningen.md\nKontrol og deterministisk orkestrering"]
-    T3 --> T4["Architectural_overview.md\nEvent bus, MCP, SAP/A2A"]
+    TPO --> T1["Intro.md <br> Hvad er agenter og hvad må de?"]
+    T1 --> T2["Advanced.md <br> Fuld pipeline og governance"]
+    T2 --> T3["Postgres_løsningen.md <br> Kontrol og deterministisk orkestrering"]
+    T3 --> T4["Architectural_overview.md <br> Event bus, MCP, SAP/A2A"]
 
-    DEV --> D1["Advanced.md\nRoller, pipeline, fejlhåndtering"]
-    D1 --> D2["TDD_skill.md\nTest-Driven Development som SKILL"]
-    D2 --> D3["RegNord.md\nKritisk bugfix: Jira → grøn test"]
-    D3 --> D4["System_Resilience.md\nRetry, circuit breaker, auto-scaling"]
+    DEV --> D1["Advanced.md <br> Roller, pipeline, fejlhåndtering"]
+    D1 --> D2["TDD_skill.md <br> Test-Driven Development som SKILL"]
+    D2 --> D3["RegNord.md <br> Kritisk bugfix: <br> Jira → grøn test"]
+    D3 --> D4["System_Resilience.md <br> Retry, circuit breaker, auto-scaling"]
 ```
 
 ### For PO / projektleder (ikke-teknisk)
