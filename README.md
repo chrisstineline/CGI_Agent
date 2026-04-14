@@ -38,26 +38,26 @@ Frameworket adresserer tre kernegevinster:
 
 | Dokument | Indhold |
 |----------|---------|
-| [CGI_Agent/Intro](CGI_Agent/Intro.md) | Introduktion til AI-agenter — hvad de er, hvad de ikke er, og grundreglerne der styrer dem |
-| [CGI_Agent/Advanced](CGI_Agent/Advanced.md) | Avanceret pipeline med alle roller, TDD-flow, fejlhåndtering og governance via SKILL.md-kontrakten |
-| [CGI_Agent/Modeller](CGI_Agent/Modeller.md) | Visuel reference — alle Mermaid-diagrammer fra introduktion og avanceret niveau samlet ét sted |
-| [CGI_Agent/Postgres_løsningen](CGI_Agent/Postgres_løsningen.md) | Postgres som systemets "hjerne": deterministisk orkestrering, auditabilitet og kontrol over AI-inferens |
-| [CGI_Agent/TDD_skill](CGI_Agent/TDD_skill.md) | Test-Driven Development som SKILL — regler og praksis for agenter og udviklere |
+| [CGI_Agent/Intro](https://github.com/chrisstineline/CGI_Agent/blob/main/Intro.md) | Introduktion til AI-agenter — hvad de er, hvad de ikke er, og grundreglerne der styrer dem |
+| [CGI_Agent/Advanced](https://github.com/chrisstineline/CGI_Agent/blob/main/Advanced.md) | Avanceret pipeline med alle roller, TDD-flow, fejlhåndtering og governance via SKILL.md-kontrakten |
+| [CGI_Agent/Modeller](https://github.com/chrisstineline/CGI_Agent/blob/main/Modeller.md) | Visuel reference — alle Mermaid-diagrammer fra introduktion og avanceret niveau samlet ét sted |
+| [CGI_Agent/Postgres_løsningen](https://github.com/chrisstineline/CGI_Agent/blob/main/Postgres_l%C3%B8sningen.md) | Postgres som systemets "hjerne": deterministisk orkestrering, auditabilitet og kontrol over AI-inferens |
+| [CGI_Agent/TDD_skill](https://github.com/chrisstineline/CGI_Agent/blob/main/TDD_skill.md) | Test-Driven Development som SKILL — regler og praksis for agenter og udviklere |
 
 ### Konkrete eksempler
 
 | Dokument | Scenarie |
 |----------|---------|
-| [CGI_Agent/Eksempler/Lederen](CGI_Agent/Eksempler/Lederen.md) | CGI CFO modtager RFP (50M DKK) på email — systemet analyserer, udarbejder tilbud og indsender, med CFO som beslutningsejer ved kritiske punkter |
-| [CGI_Agent/Eksempler/RegNord](CGI_Agent/Eksempler/RegNord.md) | Kritisk bug på Aalborg Sygehus rammer 150+ kliniske brugere — fra Jira-ticket til grøn test og deployeret fix |
+| [CGI_Agent/Eksempler/Lederen](https://github.com/chrisstineline/CGI_Agent/blob/main/Eksempler/Lederen.md) | CGI CFO modtager RFP (50M DKK) på email — systemet analyserer, udarbejder tilbud og indsender, med CFO som beslutningsejer ved kritiske punkter |
+| [CGI_Agent/Eksempler/RegNord](https://github.com/chrisstineline/CGI_Agent/blob/main/Eksempler/RegNord.md) | Kritisk bug på Aalborg Sygehus rammer 150+ kliniske brugere — fra Jira-ticket til grøn test og deployeret fix |
 
 ### Teknisk dokumentation
 
 | Dokument | Indhold |
 |----------|---------|
-| [CGI_Agent/Technical/Architectural_overview](CGI_Agent/Technical/Architectural_overview.md) | Event bus, multi-database isolation, MCP, SAP/A2A-protokol, orchestrator, sync scripts og semantisk søgning |
-| [CGI_Agent/Technical/Security_Architectue](CGI_Agent/Technical/Security_Architectue.md) | 5-lags "fortress"-model: perimeter, netværk, applikation, data og monitoring — Zero Trust, TLS 1.3 |
-| [CGI_Agent/Technical/System_Resilience](CGI_Agent/Technical/System_Resilience.md) | Fejltolerance: retry-logik, circuit breaker, bulkhead-mønster og auto-scaling |
+| [CGI_Agent/Technical/Architectural_overview](https://github.com/chrisstineline/CGI_Agent/blob/main/Technical/Architectural_overview.md) | Event bus, multi-database isolation, MCP, SAP/A2A-protokol, orchestrator, sync scripts og semantisk søgning |
+| [CGI_Agent/Technical/Security_Architectue](https://github.com/chrisstineline/CGI_Agent/blob/main/Technical/Security_Architectue.md) | 5-lags "fortress"-model: perimeter, netværk, applikation, data og monitoring — Zero Trust, TLS 1.3 |
+| [CGI_Agent/Technical/System_Resilience](https://github.com/chrisstineline/CGI_Agent/blob/main/Technical/System_Resilience.md) | Fejltolerance: retry-logik, circuit breaker, bulkhead-mønster og auto-scaling |
 
 ---
 
