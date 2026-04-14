@@ -1,9 +1,3 @@
-# Missing Architectural Components — Full Scope Implementation
-
-This document covers the architectural components that were missing from the scenario implementations in `RegNord.md` and `Leader_Chain.md`. These elements provide the complete picture of the Postgres-based agent system, enabling scalability, security, and continuous improvement.
-
----
-
 ## 1. Event Bus Integration
 
 The event bus serves as the central nervous system for agent communication, enabling loose coupling and asynchronous operations.
@@ -79,27 +73,27 @@ The system uses separate databases for different concerns, creating "fortress la
 ```mermaid
 erDiagram
     routing_db {
-        TASK_ENTRIES
-        AGENT_REGISTRY
-        ESCALATION_LOG
+        table TASK_ENTRIES
+        table AGENT_REGISTRY
+        table ESCALATION_LOG
     }
 
     agent_db {
-        AGENT_OUTPUT
-        AGENT_STATE
-        AGENT_METRICS
+        table AGENT_OUTPUT
+        table AGENT_STATE
+        table AGENT_METRICS
     }
 
     user_db {
-        USER_CHAIN
-        USER_SESSIONS
-        USER_PREFERENCES
+        table USER_CHAIN
+        table USER_SESSIONS
+        table USER_PREFERENCES
     }
 
     audit_db {
-        AUDIT_LOG
-        COMPLIANCE_LOG
-        SYSTEM_EVENTS
+        table AUDIT_LOG
+        table COMPLIANCE_LOG
+        table SYSTEM_EVENTS
     }
 
     routing_db ||--o{ agent_db : "triggers"
@@ -144,7 +138,7 @@ flowchart LR
     DATA["Data Sources"]
 
     AGENT -->|"tool_request"| MCP
-    MCP -->|"validate_request"| MCP
+    %%MCP -->|"validate_request"| MCP
     MCP -->|"execute_tool"| TOOLS
     TOOLS -->|"tool_response"| MCP
     MCP -->|"filtered_response"| AGENT
@@ -236,25 +230,28 @@ flowchart TD
     TRIGGER["Triggers"]
     ORCH["Orchestrator"]
     AGENTS["Agent Pool"]
+    ORCHINT["Orchestrator Internal"]
 
     TRIGGER -->|"Jira Webhook"| ORCH
     TRIGGER -->|"Email Received"| ORCH
     TRIGGER -->|"Scheduled Timer"| ORCH
 
     ORCH -->|"task.created"| AGENTS
-    ORCH -->|"monitor_progress"| ORCH
-    ORCH -->|"escalate_delays"| ORCH
+    ORCH <-->|"monitor_progress"| ORCHINT
+    ORCH <-->|"escalate_delays"| ORCHINT
 
     AGENTS -->|"status_update"| ORCH
     AGENTS -->|"task_completed"| ORCH
 
     classDef trigger fill:#1a3a2a,color:#ffffff,stroke:#22c55e,stroke-width:2px
     classDef orch fill:#4a1515,color:#ffffff,stroke:#ef4444,stroke-width:2px
+    classDef orchint fill:#4a1515,color:#ffffff,stroke:#ef4444,stroke-width:2px
     classDef agents fill:#1e3a5f,color:#ffffff,stroke:#3b82f6,stroke-width:2px
 
     class TRIGGER trigger
     class ORCH orch
     class AGENTS agents
+    class ORCHINT orchint
 ```
 
 ### Orchestrator Responsibilities
@@ -536,4 +533,4 @@ flowchart LR
 
 ---
 
-This comprehensive architecture provides the missing pieces for a production-ready, scalable, and secure agent system. Each component works together to create a robust platform that can handle complex workflows while maintaining security, reliability, and continuous improvement capabilities.
+This architecture provides the missing pieces for a production-ready, scalable, and secure agent system. Each component works together to create a robust platform that can handle complex workflows while maintaining security, reliability, and continuous improvement capabilities.

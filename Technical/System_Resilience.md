@@ -685,7 +685,7 @@ class SelfHealingSystem:
 
 ### Common Self-Healing Actions
 
-| Issue Type | Detection Method | Recovery Action | Success Rate |
+| Issue Type | Detection Method | Recovery Action | Success Rate (Best case scenario) |
 |------------|------------------|-----------------|--------------|
 | **Service Crash** | Health check endpoint | Restart service | 95% |
 | **Database Connection** | Connection pool monitoring | Reconnect with backoff | 90% |
@@ -779,4 +779,4 @@ experiments = [
 
 ---
 
-This comprehensive resilience framework ensures the system can withstand failures, scale under load, and maintain security while providing self-healing capabilities and continuous monitoring. The layered approach prevents single points of failure and enables graceful degradation under adverse conditions.
+This resilience framework could ensure the system can withstand failures, scale under load, and maintain security while providing self-healing capabilities and continuous monitoring. The layered approach prevents single points of failure and enables graceful degradation under adverse conditions.
