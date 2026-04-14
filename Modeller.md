@@ -18,6 +18,7 @@ flowchart TD
     AS -->|"Afventer godkendelse"| DEV
     DEV --> DONE
 ```
+
 ---------- 
 
 | Flere typer modtagere baseret på task og rolle
