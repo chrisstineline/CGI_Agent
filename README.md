@@ -38,26 +38,26 @@ Frameworket adresserer tre kernegevinster:
 
 | Dokument | Indhold |
 |----------|---------|
-| [CGI_Agent/Intro.md](CGI_Agent/Intro.md) | Introduktion til AI-agenter — hvad de er, hvad de ikke er, og grundreglerne der styrer dem |
-| [CGI_Agent/Advanced.md](CGI_Agent/Advanced.md) | Avanceret pipeline med alle roller, TDD-flow, fejlhåndtering og governance via SKILL.md-kontrakten |
-| [CGI_Agent/Modeller.md](CGI_Agent/Modeller.md) | Visuel reference — alle Mermaid-diagrammer fra introduktion og avanceret niveau samlet ét sted |
-| [CGI_Agent/Postgres_løsningen.md](CGI_Agent/Postgres_løsningen.md) | Postgres som systemets "hjerne": deterministisk orkestrering, auditabilitet og kontrol over AI-inferens |
-| [CGI_Agent/TDD_skill.md](CGI_Agent/TDD_skill.md) | Test-Driven Development som SKILL — regler og praksis for agenter og udviklere |
+| [CGI_Agent/Intro](CGI_Agent/Intro.md) | Introduktion til AI-agenter — hvad de er, hvad de ikke er, og grundreglerne der styrer dem |
+| [CGI_Agent/Advanced](CGI_Agent/Advanced.md) | Avanceret pipeline med alle roller, TDD-flow, fejlhåndtering og governance via SKILL.md-kontrakten |
+| [CGI_Agent/Modeller](CGI_Agent/Modeller.md) | Visuel reference — alle Mermaid-diagrammer fra introduktion og avanceret niveau samlet ét sted |
+| [CGI_Agent/Postgres_løsningen](CGI_Agent/Postgres_løsningen.md) | Postgres som systemets "hjerne": deterministisk orkestrering, auditabilitet og kontrol over AI-inferens |
+| [CGI_Agent/TDD_skill](CGI_Agent/TDD_skill.md) | Test-Driven Development som SKILL — regler og praksis for agenter og udviklere |
 
 ### Konkrete eksempler
 
 | Dokument | Scenarie |
 |----------|---------|
-| [CGI_Agent/Eksempler/Lederen.md](CGI_Agent/Eksempler/Lederen.md) | CGI CFO modtager RFP (50M DKK) på email — systemet analyserer, udarbejder tilbud og indsender, med CFO som beslutningsejer ved kritiske punkter |
-| [CGI_Agent/Eksempler/RegNord.md](CGI_Agent/Eksempler/RegNord.md) | Kritisk bug på Aalborg Sygehus rammer 150+ kliniske brugere — fra Jira-ticket til grøn test og deployeret fix |
+| [CGI_Agent/Eksempler/Lederen](CGI_Agent/Eksempler/Lederen.md) | CGI CFO modtager RFP (50M DKK) på email — systemet analyserer, udarbejder tilbud og indsender, med CFO som beslutningsejer ved kritiske punkter |
+| [CGI_Agent/Eksempler/RegNord](CGI_Agent/Eksempler/RegNord.md) | Kritisk bug på Aalborg Sygehus rammer 150+ kliniske brugere — fra Jira-ticket til grøn test og deployeret fix |
 
 ### Teknisk dokumentation
 
 | Dokument | Indhold |
 |----------|---------|
-| [CGI_Agent/Technical/Architectural_overview.md](CGI_Agent/Technical/Architectural_overview.md) | Event bus, multi-database isolation, MCP, SAP/A2A-protokol, orchestrator, sync scripts og semantisk søgning |
-| [CGI_Agent/Technical/Security_Architectue.md](CGI_Agent/Technical/Security_Architectue.md) | 5-lags "fortress"-model: perimeter, netværk, applikation, data og monitoring — Zero Trust, TLS 1.3 |
-| [CGI_Agent/Technical/System_Resilience.md](CGI_Agent/Technical/System_Resilience.md) | Fejltolerance: retry-logik, circuit breaker, bulkhead-mønster og auto-scaling |
+| [CGI_Agent/Technical/Architectural_overview](CGI_Agent/Technical/Architectural_overview.md) | Event bus, multi-database isolation, MCP, SAP/A2A-protokol, orchestrator, sync scripts og semantisk søgning |
+| [CGI_Agent/Technical/Security_Architectue](CGI_Agent/Technical/Security_Architectue.md) | 5-lags "fortress"-model: perimeter, netværk, applikation, data og monitoring — Zero Trust, TLS 1.3 |
+| [CGI_Agent/Technical/System_Resilience](CGI_Agent/Technical/System_Resilience.md) | Fejltolerance: retry-logik, circuit breaker, bulkhead-mønster og auto-scaling |
 
 ---
 
@@ -88,22 +88,23 @@ flowchart TD
     D3 --> D4["System_Resilience.md <br> Retry, circuit breaker, auto-scaling"]
 ```
 
+
 ### For PO / projektleder (ikke-teknisk)
-1. [Intro.md](CGI_Agent/Intro.md) — forstå hvad agenter er og hvad de må
-2. [Lederen.md](CGI_Agent/Eksempler/Lederen.md) — se det i praksis fra et CFO-perspektiv
-3. [Modeller.md](CGI_Agent/Modeller.md) — visuel oversigt over flowet
+1. [Intro](CGI_Agent/Intro.md) — forstå hvad agenter er og hvad de må
+2. [Lederen](CGI_Agent/Eksempler/Lederen.md) — se det i praksis fra et CFO-perspektiv
+3. [Modeller](CGI_Agent/Modeller.md) — visuel oversigt over flowet
 
 ### For teknisk PO / arkitekt
-1. [Intro.md](CGI_Agent/Intro.md)
-2. [Advanced.md](CGI_Agent/Advanced.md) — fuld pipeline og governance
-3. [Postgres_løsningen.md](CGI_Agent/Postgres_løsningen.md) — kontrol og deterministisk orkestrering
-4. [Architectural_overview.md](CGI_Agent/Technical/Architectural_overview.md)
+1. [Intro](CGI_Agent/Intro.md)
+2. [Advanced](CGI_Agent/Advanced.md) — fuld pipeline og governance
+3. [Postgres_løsningen](CGI_Agent/Postgres_løsningen.md) — kontrol og deterministisk orkestrering
+4. [Architectural_overview](CGI_Agent/Technical/Architectural_overview.md)
 
 ### For udvikler / tech lead
-1. [Advanced.md](CGI_Agent/Advanced.md)
-2. [TDD_skill.md](CGI_Agent/TDD_skill.md)
-3. [RegNord.md](CGI_Agent/Eksempler/RegNord.md) — komplet bugfix-flow med TDD
-4. [System_Resilience.md](CGI_Agent/Technical/System_Resilience.md)
+1. [Advanced](CGI_Agent/Advanced.md)
+2. [TDD_skill](CGI_Agent/TDD_skill.md)
+3. [RegNord](CGI_Agent/Eksempler/RegNord.md) — komplet bugfix-flow med TDD
+4. [System_Resilience](CGI_Agent/Technical/System_Resilience.md)
 
 ---
 
