@@ -90,21 +90,21 @@ flowchart TD
 
 
 ### For PO / projektleder (ikke-teknisk)
-1. [Intro](CGI_Agent/Intro.md) — forstå hvad agenter er og hvad de må
-2. [Lederen](CGI_Agent/Eksempler/Lederen.md) — se det i praksis fra et CFO-perspektiv
-3. [Modeller](CGI_Agent/Modeller.md) — visuel oversigt over flowet
+1. [Intro](https://github.com/chrisstineline/CGI_Agent/blob/main/Intro.md) — forstå hvad agenter er og hvad de må
+2. [Lederen](https://github.com/chrisstineline/CGI_Agent/blob/main/Eksempler/Lederen.md) — se det i praksis fra et CFO-perspektiv
+3. [Modeller](https://github.com/chrisstineline/CGI_Agent/blob/main/Modeller.md) — visuel oversigt over flowet
 
 ### For teknisk PO / arkitekt
-1. [Intro](CGI_Agent/Intro.md)
-2. [Advanced](CGI_Agent/Advanced.md) — fuld pipeline og governance
-3. [Postgres_løsningen](CGI_Agent/Postgres_løsningen.md) — kontrol og deterministisk orkestrering
-4. [Architectural_overview](CGI_Agent/Technical/Architectural_overview.md)
+1. [Intro](https://github.com/chrisstineline/CGI_Agent/blob/main/Intro.md)
+2. [Advanced](https://github.com/chrisstineline/CGI_Agent/blob/main/Advanced.md) — fuld pipeline og governance
+3. [Postgres_løsningen](Chttps://github.com/chrisstineline/CGI_Agent/blob/main/Postgres_l%C3%B8sningen.md) — kontrol og deterministisk orkestrering
+4. [Architectural_overview](https://github.com/chrisstineline/CGI_Agent/blob/main/Technical/Architectural_overview.md)
 
 ### For udvikler / tech lead
-1. [Advanced](CGI_Agent/Advanced.md)
-2. [TDD_skill](CGI_Agent/TDD_skill.md)
-3. [RegNord](CGI_Agent/Eksempler/RegNord.md) — komplet bugfix-flow med TDD
-4. [System_Resilience](CGI_Agent/Technical/System_Resilience.md)
+1. [Advanced](https://github.com/chrisstineline/CGI_Agent/blob/main/Advanced.md)
+2. [TDD_skill](https://github.com/chrisstineline/CGI_Agent/blob/main/TDD_skill.md)
+3. [RegNord](https://github.com/chrisstineline/CGI_Agent/blob/main/Eksempler/RegNord.md) — komplet bugfix-flow med TDD
+4. [System_Resilience](https://github.com/chrisstineline/CGI_Agent/blob/main/Technical/System_Resilience.md)
 
 ---
 
