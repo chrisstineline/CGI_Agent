@@ -2,6 +2,7 @@
 
 Comprehensive analysis of deployment, operation, and token costs for the Postgres-based AI agent system, with comparison to alternative architectures.
 
+Costs reducted (will be cut more, based on more realistic estimations and scenarios of hiring) - it is still high. AI estimated, given I hold no information about actual salaries or project runtime + post-implementation costs.
 ---
 
 ## Scope & Assumptions
