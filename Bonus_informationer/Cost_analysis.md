@@ -4,6 +4,48 @@ Comprehensive analysis of deployment, operation, and token costs for the Postgre
 
 ---
 
+## Scope & Assumptions
+
+### Target Organisation
+
+All calculations are sized for a **medium-to-large enterprise** (roughly 200–2,000 employees) operating AI-driven workflows at meaningful scale — the kind of organisation that would engage CGI for a multi-year software delivery or digital transformation contract. The **baseline scenario** used throughout is **10,000 tasks/month** unless a section explicitly states otherwise.
+
+Typical task types at this scale include automated code review, bug triage, RFP/document analysis, test generation, and compliance checks — each touching multiple data sources (Jira, Slack, email, Git).
+
+### Team Size
+
+| Phase | Role | Level | Headcount | Note |
+|-------|------|-------|-----------|------|
+| **Build (Postgres)** | Backend engineer | Senior | 1 FTE | Full-time during 3-month build |
+| **Build (Postgres)** | Backend engineer | Junior | 1 FTE | Full-time during 3-month build |
+| **Build (Traditional)** | Backend engineer | Senior | 1 FTE | Full-time during 1.5-month build |
+| **Build (Traditional)** | Backend engineer | Junior | 1 FTE | Full-time during 1.5-month build |
+| **Ongoing ops (Postgres)** | SRE/DevOps | Senior | 1.0 FTE | |
+| **Ongoing ops (Postgres)** | Database Administrator | Junior | 0.5 FTE | |
+| **Ongoing ops (Postgres)** | Security Engineer | Senior | 0.5 FTE | |
+| **Ongoing ops (Postgres)** | Monitoring/Observability | Junior | 0.5 FTE | |
+| **Ongoing ops (Traditional)** | SRE | Senior | 1.0 FTE | |
+| **Ongoing ops (Traditional)** | Generalist ops | Junior | 2.0 FTE | No dedicated DBA needed |
+
+> **Build timelines shortened by OSS:** pgvector (embeddings), community MCP framework templates, Airbyte-compatible ETL patterns, and open-source agent scaffolding reduce the Postgres build from ~6 months to **3 months**, and the Traditional prototype from ~3 months to **1.5 months**.
+
+**Salary assumptions (DKK-adjusted):**
+- Senior engineer (salary + social contributions + overhead): **DKK 600,000–750,000/year** ≈ **$100,000 USD** used in calculations
+- Junior engineer: **DKK 500,000/year** ≈ **$70,000 USD** used in calculations
+
+These DKK rates align closely with the USD figures used throughout this document, making the calculations directly applicable to a Danish delivery context.
+
+### Pricing Model
+
+All LLM costs use **Claude Sonnet 4.6** API pricing:
+- Input tokens: **$3.00 / 1M**
+- Output tokens: **$15.00 / 1M**
+- Token split used in section 2 scaling tables: **~78% input / 22% output** (Traditional: 35k in / 10k out; Postgres: 8k in / 4k out), derived from the task flow breakdowns in section 1.
+
+Infrastructure costs reflect **AWS eu-west-1 (Ireland)** on-demand pricing as of early 2026, suitable for EU-based deployments.
+
+---
+
 ## Executive Summary
 
 The Postgres-based architecture provides **significant cost savings** compared to traditional AI-swarm approaches:
@@ -93,7 +135,7 @@ TOTAL                      45,000       12,000      73% ↓
 
 ## 2. LLM Cost Analysis
 
-### Pricing Model (Claude API - Sonnet 3.5)
+### Pricing Model (Claude API - Sonnet 4.6)
 
 ```json
 {
@@ -278,15 +320,29 @@ Monthly Production    $3,600         $43,200
 
 ### Personnel
 
+**Postgres ongoing team (2.5 FTE):**
+
 ```
-Role                     FTE    Salary/Year    Total/Year
-─────────────────────────────────────────────────────────
-SRE/DevOps              1.0    $150,000       $150,000
-Database Administrator  0.5    $140,000       $70,000
-Security Engineer       0.5    $160,000       $80,000
-Monitoring/Observability 0.5   $130,000       $65,000
-─────────────────────────────────────────────────────────
-Total Personnel                                $365,000
+Role                     FTE    Level    Salary/Year    Total/Year
+──────────────────────────────────────────────────────────────────
+SRE/DevOps              1.0    Senior   $100,000       $100,000
+Database Administrator  0.5    Junior    $70,000        $35,000
+Security Engineer       0.5    Senior   $100,000        $50,000
+Monitoring/Observability 0.5   Junior    $70,000        $35,000
+──────────────────────────────────────────────────────────────────
+Total Postgres Personnel                                $220,000
+```
+
+**Traditional ongoing team (3.0 FTE):**
+
+```
+Role                     FTE    Level    Salary/Year    Total/Year
+──────────────────────────────────────────────────────────────────
+SRE/DevOps              1.0    Senior   $100,000       $100,000
+Generalist ops          1.0    Junior    $70,000        $70,000
+Generalist ops          1.0    Junior    $70,000        $70,000
+──────────────────────────────────────────────────────────────────
+Total Traditional Personnel                             $240,000
 ```
 
 ### Support & Maintenance
@@ -304,7 +360,7 @@ Incident response           $8,000
 Total Support              $50,000
 ```
 
-### Total Operational Cost: **$415,000/year**
+### Total Operational Cost: **$270,000/year** (Postgres) | **$290,000/year** (Traditional)
 
 ---
 
@@ -313,14 +369,14 @@ Total Support              $50,000
 ### Annual Total Cost (All In)
 
 ```
-Category                              Annual Cost
-────────────────────────────────────────────────
-LLM (Claude API - 10k tasks/month)    $11,520
-Infrastructure (all environments)    $62,880
-Personnel (team of 2.5 FTE)          $365,000
-Support & Maintenance                $50,000
-────────────────────────────────────────────────
-TOTAL ANNUAL COST                     $489,400
+Category                              Postgres        Traditional
+─────────────────────────────────────────────────────────────────
+LLM (Claude API - 10k tasks/month)    $11,520          $34,200
+Infrastructure (all environments)    $62,880          $45,000
+Personnel                            $220,000         $240,000
+Support & Maintenance                $50,000          $60,000
+─────────────────────────────────────────────────────────────────
+TOTAL ANNUAL COST                     $344,400         $379,200
 ```
 
 ### Cost Per Task
@@ -328,8 +384,8 @@ TOTAL ANNUAL COST                     $489,400
 ```
 Assumption: 120,000 tasks annually (10,000/month)
 
-Total cost per year: $489,400
-Cost per task:      $489,400 ÷ 120,000 = $4.08/task
+Postgres:     $344,400 ÷ 120,000 = $2.87/task
+Traditional:  $379,200 ÷ 120,000 = $3.16/task
 ```
 
 ### Cost Comparison: Postgres vs Traditional
@@ -340,17 +396,17 @@ Cost per task:      $489,400 ÷ 120,000 = $4.08/task
 |---|---|---|---|
 | **LLM Costs** | $11,520 | $34,200 | **-$22,680** |
 | **Infrastructure** | $62,880 | $45,000 | +$17,880 |
-| **Personnel** | $365,000 | $400,000 | **-$35,000** |
+| **Personnel** | $220,000 | $240,000 | **-$20,000** |
 | **Support** | $50,000 | $60,000 | **-$10,000** |
-| **TOTAL** | **$489,400** | **$539,200** | **-$49,800 (9%)** |
+| **TOTAL** | **$344,400** | **$379,200** | **-$34,800 (9.2%)** |
 
 **Cost per task:**
 
 | Solution | Cost/Task |
 |---|---|
-| Postgres | $4.08 |
-| Traditional | $4.49 |
-| Savings | **$0.41/task (9%)** |
+| Postgres | $2.87 |
+| Traditional | $3.16 |
+| Savings | **$0.29/task (9.2%)** |
 
 ---
 
@@ -402,60 +458,84 @@ processing is automated, with team focused on:
 
 ```
 Initial Setup:
-- 3 months of development:      $90,000
-- Infrastructure setup:          $15,000
-- Initial team (3 people):       $90,000
-─────────────────────────────
-Total Initial:                   $195,000
+- 1.5 months dev (1 senior + 1 junior):  $21,000
+- Infrastructure setup (OSS modules):     $8,000
+- Initial ops team (1 sr + 2 jr, 1.5mo): $30,000
+─────────────────────────────────────────────────
+Total Initial:                            $59,000
 
 Monthly Recurring:
-- Infrastructure:               $4,000
-- Personnel (3 FTE):            $35,000
-- Support:                      $5,000
-- LLM Costs (1k tasks):         $285
-────────────────────────────────
-Total Monthly:                   $44,285
-Annual recurring:                $531,420
+- Infrastructure:                        $4,000
+- Personnel (1 senior + 2 junior FTE):  $20,000
+- Support:                               $5,000
+- LLM Costs (1k tasks):                   $270
+────────────────────────────────────────────────
+Total Monthly:                           $29,270
+Annual recurring:                       $351,240
 ```
 
 ### Postgres Approach
 
 ```
 Initial Setup:
-- 6 months of development:      $180,000
-- Database design/setup:         $15,000
-- Infrastructure setup:          $20,000
-- Initial team (2.5 people):    $90,000
-─────────────────────────────
-Total Initial:                   $305,000 (56% higher)
+- 3 months dev (1 senior + 1 junior):       $42,500
+- Database design (OSS templates):           $5,000
+- Infrastructure setup (community IaC):     $10,000
+- Initial ops team (2.5 FTE, 3mo, 50% ramp): $27,500
+─────────────────────────────────────────────────────
+Total Initial:                               $85,000 (44% higher)
 
 Monthly Recurring:
-- Infrastructure:               $5,240
-- Personnel (2.5 FTE):          $30,417
-- Support:                      $4,167
-- LLM Costs (1k tasks):         $96
-────────────────────────────────
-Total Monthly:                   $39,920
-Annual recurring:                $479,040
+- Infrastructure:                           $5,240
+- Personnel (2.5 FTE mixed):               $18,333
+- Support:                                  $4,167
+- LLM Costs (1k tasks):                       $72
+────────────────────────────────────────────────────
+Total Monthly:                              $27,812
+Annual recurring:                          $333,744
 ```
+
+### How Initial Costs Were Derived
+
+**Traditional — $59,000**
+
+| Line item | Derivation |
+|-----------|------------|
+| 1.5 months development ($21,000) | 1 senior ($100k/yr) + 1 junior ($70k/yr) × 1.5 months = $21,250 ≈ $21,000. OSS agent frameworks and cloud-native tooling reduce the prototype from ~3 months to 1.5 months. |
+| Infrastructure setup ($8,000) | ~64 hours DevOps work using community Terraform modules at $125/hour. No database tier or MCP server to provision. |
+| Initial ops team ($30,000) | 1 senior SRE + 2 junior generalists; ($100k + $70k + $70k)/12 × 1.5 months = $30,000 first-period payroll. |
+
+**Postgres — $85,000**
+
+| Line item | Derivation |
+|-----------|------------|
+| 3 months development ($42,500) | 1 senior ($100k/yr) + 1 junior ($70k/yr) × 3 months = $42,500. Pre-existing OSS solutions (pgvector, community MCP templates, Airbyte-compatible ETL patterns, open-source agent scaffolding) cut the original 6-month estimate to 3 months. |
+| Database design/setup ($5,000) | ~33 hours DBA work using community schema templates and pgvector documentation at $150/hour — vs. ~100 hours for fully bespoke design. |
+| Infrastructure setup ($10,000) | ~80 hours DevOps work; Terraform community modules for RDS, MSK, and ElastiCache at $125/hour. |
+| Initial ops team ($27,500) | 2.5 FTE ops (1 senior + 1.5 junior) onboarded during build; $220,000/year ÷ 12 × 3 months × 50% ramp-up = $27,500. |
+
+The $26,000 higher Postgres initial cost is recovered within **month 18**. Without OSS tooling the gap would be ~$110,000 with break-even at month 24.
+
+**Monthly recurring — infrastructure line**
+
+The $5,240/month Postgres infrastructure is the production environment ($3,600/month) plus a pro-rated share of staging and development for steady-state maintenance, including monitoring tooling (Datadog/Grafana Cloud). Traditional infrastructure is lower ($4,000/month) because it has no dedicated database tier.
 
 ### ROI Timeline
 
 ```
 Month    Traditional    Postgres      Difference    Cumulative Savings
 ─────────────────────────────────────────────────────────────────────
-0        -$195,000     -$305,000     -$110,000     -$110,000
-6        -$460,710     -$544,000     -$83,290      -$193,290
-12       -$726,420     -$784,040     -$57,620      -$250,910
-18       -$992,130     -$1,024,080   -$32,050      -$283,050
-24       -$1,257,840   -$1,264,120   -$6,280       -$289,050 ← Break-even
-30       -$1,523,550   -$1,504,160   +$19,390      -$269,660
-36       -$1,789,260   -$1,744,200   +$45,060      -$224,600
-48       -$2,320,680   -$2,224,280   +$96,400      -$128,280
-60       -$2,852,100   -$2,704,360   +$147,740     +$19,440 ← Positive ROI
+0        -$59,000      -$85,000      -$26,000      -$26,000
+6        -$234,620     -$251,872     -$17,252      -$17,252
+12       -$410,240     -$418,744     -$8,504       -$8,504
+18       -$585,860     -$585,616     +$244         +$244    ← Break-even
+24       -$761,480     -$752,488     +$8,992       +$8,992
+36       -$1,112,720   -$1,086,232   +$26,488      +$26,488
+48       -$1,463,960   -$1,419,976   +$43,984      +$43,984
+60       -$1,815,200   -$1,753,720   +$61,480      +$61,480
 ```
 
-**Key Finding:** Break-even occurs at **month 24** (2 years). Postgres solution is more cost-effective at scale, especially for long-term operations.
+**Key Finding:** Break-even occurs at **month 18** — six months faster than a fully-staffed senior model — due to the lower initial investment from OSS tooling and a junior/senior team mix. Monthly savings ($1,458/month) are modest because both teams use junior developers; LLM token savings become the dominant differentiator at higher task volumes.
 
 ---
 
@@ -463,19 +543,21 @@ Month    Traditional    Postgres      Difference    Cumulative Savings
 
 ### 3-Year Total Cost of Ownership
 
-| Scenario | Cost |
-|---|---|
-| Traditional (3 years) | $2.32M |
-| Postgres (3 years) | $2.22M |
-| **Savings** | **$98K (4%)** |
+_Initial investment + 3 years of annual recurring costs:_
+
+| Scenario | Initial | Annual × 3 | Total |
+|---|---|---|---|
+| Traditional (3 years) | $59,000 | $379,200 × 3 = $1,137,600 | **$1.20M** |
+| Postgres (3 years) | $85,000 | $344,400 × 3 = $1,033,200 | **$1.12M** |
+| **Savings** | | | **$78K (6.5%)** |
 
 ### 5-Year Total Cost of Ownership
 
-| Scenario | Cost |
-|---|---|
-| Traditional (5 years) | $2.85M |
-| Postgres (5 years) | $2.70M |
-| **Savings** | **$147K (5%)** |
+| Scenario | Initial | Annual × 5 | Total |
+|---|---|---|---|
+| Traditional (5 years) | $59,000 | $379,200 × 5 = $1,896,000 | **$1.96M** |
+| Postgres (5 years) | $85,000 | $344,400 × 5 = $1,722,000 | **$1.81M** |
+| **Savings** | | | **$148K (7.6%)** |
 
 ### Benefits Beyond Cost
 
@@ -511,16 +593,17 @@ Month    Traditional    Postgres      Difference    Cumulative Savings
 Annual Tasks: 1,200
 
 Cost Breakdown:
-- LLM (Traditional):    $408
-- LLM (Postgres):       $115
-- Infrastructure:       $62,880 (both)
-- Personnel:            $365,000 (both)
+- LLM (Traditional):       $408
+- LLM (Postgres):          $115
+- Infrastructure:          $62,880 (both)
+- Personnel (Traditional): $240,000 (1 senior + 2 junior)
+- Personnel (Postgres):    $220,000 (mixed 2.5 FTE)
 
-Total Traditional:      $428,288
-Total Postgres:         $428,115
+Total Traditional:         $303,288
+Total Postgres:            $282,995
 
-Difference: $173 (< 0.1%)
-Verdict: Cost is similar at low volume. Choose based on features.
+Savings: $20,293 (6.7%)
+Verdict: Postgres is moderately cheaper at all volumes due to leaner team structure.
 ```
 
 ### Medium Volume (5,000 tasks/month)
@@ -529,16 +612,17 @@ Verdict: Cost is similar at low volume. Choose based on features.
 Annual Tasks: 60,000
 
 Cost Breakdown:
-- LLM (Traditional):    $20,400
-- LLM (Postgres):       $5,760
-- Infrastructure:       $62,880 (both)
-- Personnel:            $365,000 (both)
+- LLM (Traditional):       $20,400
+- LLM (Postgres):          $5,760
+- Infrastructure:          $62,880 (both)
+- Personnel (Traditional): $240,000 (1 senior + 2 junior)
+- Personnel (Postgres):    $220,000 (mixed 2.5 FTE)
 
-Total Traditional:      $448,280
-Total Postgres:         $432,880
+Total Traditional:         $323,280
+Total Postgres:            $288,640
 
-Savings: $15,400 (3.4%)
-Verdict: Postgres becomes cost-effective.
+Savings: $34,640 (10.7%)
+Verdict: Token savings combine with personnel savings for meaningful advantage.
 ```
 
 ### High Volume (50,000 tasks/month)
@@ -547,17 +631,18 @@ Verdict: Postgres becomes cost-effective.
 Annual Tasks: 600,000
 
 Cost Breakdown:
-- LLM (Traditional):    $204,000
-- LLM (Postgres):       $57,600
-- Infrastructure:       $95,000 (Postgres slightly higher)
-- Infrastructure:       $85,000 (Traditional)
-- Personnel:            $365,000 (both)
+- LLM (Traditional):       $204,000
+- LLM (Postgres):          $57,600
+- Infrastructure (Trad):    $85,000
+- Infrastructure (PG):      $95,000 (higher DB tier)
+- Personnel (Traditional): $240,000 (1 senior + 2 junior)
+- Personnel (Postgres):    $220,000 (mixed 2.5 FTE)
 
-Total Traditional:      $654,000
-Total Postgres:         $517,600
+Total Traditional:         $529,000
+Total Postgres:            $372,600
 
-Savings: $136,400 (20.8%)
-Verdict: Postgres is significantly more cost-effective.
+Savings: $156,400 (29.6%)
+Verdict: LLM token savings dominate at this volume — Postgres is significantly more cost-effective.
 ```
 
 ### Enterprise Scale (200,000 tasks/month)
@@ -566,17 +651,18 @@ Verdict: Postgres is significantly more cost-effective.
 Annual Tasks: 2,400,000
 
 Cost Breakdown:
-- LLM (Traditional):    $816,000
-- LLM (Postgres):       $230,400
-- Infrastructure:       $150,000 (Postgres higher scale)
-- Infrastructure:       $180,000 (Traditional higher scale)
-- Personnel:            $400,000 (both, more DevOps needed)
+- LLM (Traditional):       $816,000
+- LLM (Postgres):          $230,400
+- Infrastructure (Trad):   $180,000 (higher scale)
+- Infrastructure (PG):     $150,000 (higher scale)
+- Personnel (Traditional): $300,000 (scale-up: 1 senior + 3 junior)
+- Personnel (Postgres):    $280,000 (scale-up: 1.5 senior + 2 junior)
 
-Total Traditional:      $1,396,000
-Total Postgres:         $780,400
+Total Traditional:         $1,296,000
+Total Postgres:            $660,400
 
-Savings: $615,600 (44.1%)
-Verdict: Postgres is dramatically more cost-effective at scale.
+Savings: $635,600 (49.0%)
+Verdict: Token savings completely dominate at enterprise scale — Postgres is dramatically more cost-effective.
 ```
 
 ---
@@ -641,21 +727,22 @@ The Postgres-based solution is **highly efficient** compared to traditional AI s
 |---|---|
 | **Token Usage** | 73% reduction |
 | **LLM Costs** | 67% reduction |
-| **Total Cost (medium volume)** | 3-4% reduction |
-| **Total Cost (high volume)** | 20-44% reduction |
-| **Cost per Task (Enterprise)** | $0.32 vs $0.58 (45% lower) |
+| **Total Cost (medium 5k tasks/mo)** | ~11% reduction |
+| **Total Cost (high 50k tasks/mo)** | ~30% reduction |
+| **Total Cost (enterprise 200k/mo)** | ~49% reduction |
+| **Cost per Task (Enterprise)** | $0.28 vs $0.54 (49% lower) |
 
 ### Key Takeaways
 
-1. **Postgres solution requires higher upfront investment** but pays off through token savings
-2. **Break-even occurs at ~24 months** of operation
-3. **Token savings accelerate at scale** - enterprise volumes see 44% cost reductions
-4. **Long-term operations benefit most** - 5-year ROI positive with significant savings
+1. **Lower upfront investment than previously estimated** — OSS tooling and a junior/senior team mix cut initial costs to $85,000 (Postgres) vs $59,000 (Traditional)
+2. **Break-even occurs at ~18 months** — faster than fully-staffed senior estimates
+3. **Monthly savings are modest at low volume** ($1,458/month) — the real leverage is LLM token savings at scale
+4. **Token savings dominate at enterprise volumes** — 49% cost reduction at 200,000 tasks/month
 5. **Additional non-monetary benefits** include better compliance, audit trails, and reliability
 
 ### Final Verdict
 
-**For organizations planning to run 5,000+ AI-driven tasks monthly for 2+ years, the Postgres solution is 15-45% more cost-effective than traditional approaches, while providing superior scalability, compliance, and operational reliability.**
+**For organisations planning to run 5,000+ AI-driven tasks monthly for 18+ months, the Postgres solution is 10–49% more cost-effective than traditional approaches. With a junior/senior team mix and pre-existing OSS tooling, the initial investment is accessible ($85,000), and the break-even is within 1.5 years.**
 
 ---
 
