@@ -38,13 +38,12 @@ Postgres-løsningen bruger AI **kun** til reel inferens. Alt andet — databehan
 
 | Metrik | Postgres-løsning | Traditionel AI-swarm | Forskel |
 |--------|-----------------|---------------------|----------|
-| **Token-forbrug per opgave** | 12.000 | 45.000 | **73% reduktion** |
-| **Token-effektivitetsindeks** | 83% | 22% | **3,8× bedre** |
-| **LLM-omkostning (10.000 opgaver/md)** | $960/md | $2.850/md | **$1.890/md spart** |
-| **Break-even** | 24 måneder | — | Positiv ROI fra år 2 |
-| **Total besparelse (enterprise, 100k/md)** | — | — | **$22.900/md** |
+| **Token-forbrug per opgave** | 8000-15.000 | 25.000-45.000 | **65-73% reduktion** |
+| **Token-effektivitetsindeks** | 70% | 22-40% | **3,2× bedre** |
+| **LLM-omkostning (10.000 opgaver/md)** | $800-1.200/md | $2.100-3.600/md | **$1.500-2.000/md spart** |
+| **Total besparelse (enterprise, 100k/md)** | — | — | **$18.000-23.000/md** |
 
-> **Kerneprincip:** 83% af hvert token bruges på reel AI-værdi. I en traditionel AI-swarm er det kun 22%. Se [Efficiency.md](Effektiviseing/Efficiency.md) og [Cost_analysis.md](Bonus_informationer/Cost_analysis.md) for fuld analyse.
+> **Kerneprincip:** 70% af hvert token bruges på reel AI-værdi. I en traditionel AI-swarm er det kun 22-40%. Range-estimater reflekterer opgave-kompleksitet. Se [Efficiency.md](Effektiviseing/Efficiency.md) sektion 11 for validering af claims og [Cost_analysis.md](Bonus_informationer/Cost_analysis.md) for fuld ROI-analyse.
 
 ---
 
@@ -112,13 +111,13 @@ flowchart TD
     PO --> P1["Intro.md <br> Hvad er agenter og hvad må de?"]
     P1 --> P2["Lederen.md <br> CFO-perspektiv: RFP fra email til indsendelse"]
     P2 --> P3["Modeller.md <br> Visuel oversigt over flowet"]
-    P3 --> P4["Cost_analysis.md <br> Nøgletal: 73% token-besparelse, <br> break-even ved 24 md"]
+    P3 --> P4["Cost_analysis.md <br> Nøgletal"]
 
     TPO --> T1["Intro.md <br> Hvad er agenter og hvad må de?"]
     T1 --> T2["Advanced.md <br> Fuld pipeline og governance"]
     T2 --> T3["Postgres_løsningen.md <br> Kontrol og deterministisk orkestrering"]
     T3 --> T4["Architectural_overview.md <br> Event bus, MCP, SAP/A2A"]
-    T4 --> T5["Efficiency.md <br> Token-effektivitet: 83% vs 22%"]
+    T4 --> T5["Efficiency.md <br> Token-effektivitet"]
     T5 --> T6["Cost_analysis.md <br> Fuld omkostningsanalyse + ROI"]
 
     DEV --> D1["Advanced.md <br> Roller, pipeline, fejlhåndtering"]
@@ -140,7 +139,7 @@ flowchart TD
 2. [Advanced](https://github.com/chrisstineline/CGI_Agent/blob/main/Advanced.md) — fuld pipeline og governance
 3. [Postgres_løsningen](https://github.com/chrisstineline/CGI_Agent/blob/main/Postgres_l%C3%B8sningen.md) — kontrol og deterministisk orkestrering
 4. [Architectural_overview](https://github.com/chrisstineline/CGI_Agent/blob/main/Technical/Architectural_overview.md)
-5. [Efficiency](https://github.com/chrisstineline/CGI_Agent/blob/main/Effektiviseing/Efficiency.md) — token-effektivitet: 83% nyttige tokens vs. 22% i AI-swarm
+5. [Efficiency](https://github.com/chrisstineline/CGI_Agent/blob/main/Effektiviseing/Efficiency.md) — token-effektivitet
 6. [Cost_analysis](https://github.com/chrisstineline/CGI_Agent/blob/main/Bonus_informationer/Cost_analysis.md) — fuld omkostningsanalyse med skalerings-scenarier
 
 ### For udvikler / tech lead
