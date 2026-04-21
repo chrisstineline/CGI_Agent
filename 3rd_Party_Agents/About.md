@@ -19,5 +19,3 @@ The agents are listed with links to source/ install below:
 - Code_Reviewer: https://www.aitmpl.com/component/agent/development-tools/code-reviewer
     - Install: npx claude-code-templates@latest --agent development-tools/code-reviewer
 
-- Documentation_Adrs.md: https://github.com/addyosmani/agent-skills/blob/main/skills/documentation-and-adrs/SKILL.md?plain=1
-
