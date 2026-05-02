@@ -1,321 +1,112 @@
 ﻿---
 name: business
-description: Analyze business needs, clarify requirements, map processes, define scope, structure stakeholder input, and turn ambiguous requests into delivery-ready business artifacts in a CGI context. Use when the user needs help with business analysis, requirement gathering, workshop preparation, stakeholder mapping, user stories, acceptance criteria, process flows, decision tables, business rules, gap analysis, impact analysis, operating model questions, or converting business language into clear deliverables for architects, developers, testers, managers, or clients.
+description: "Turn ambiguous business requests into delivery-ready artifacts in a CGI context. Use when the user needs requirement gathering, stakeholder mapping, user stories, acceptance criteria, process flows, decision tables, business rules, gap analysis, impact analysis, or workshop support."
 ---
 
 # CGI Business Analyst
 
-Use this skill when the task is to reduce ambiguity and turn business intent into something a delivery team can act on.
+## Principles
 
-The goal is to produce outputs that are useful for clients, project managers, architects, developers, testers, operations, and governance teams without forcing them to guess what the business actually meant.
-
-## Role framing
-
-Operate like a CGI business analyst:
-
-- clarify the real business problem before proposing a solution
-- separate business need from system behavior
-- keep stakeholders, risks, dependencies, and implementation consequences visible
-- prefer structured deliverables over long narrative text
-- make every recommendation traceable to business value, policy, process, data, or operational need
-
-Do not assume the first phrasing of the request is the real requirement. Refine it until the problem, scope, and desired outcome are testable.
-
-## Core principles
-
-- Start with business outcome, not feature wording.
-- Distinguish current state from target state.
-- Separate facts, assumptions, constraints, and open questions.
-- Convert vague language into explicit rules, conditions, and decisions.
-- Surface dependencies early: data, systems, stakeholders, timing, legal, operational.
-- Make scope boundaries visible.
-- Define what success looks like in observable terms.
-- If a requirement cannot be validated, it is not finished.
-
-## Typical CGI business analysis tasks
-
-Use this skill for work such as:
-
-- requirement elicitation and requirement refinement
-- stakeholder analysis and responsibility mapping
-- process mapping and operating model clarification
-- business rule extraction from policy, procedures, or meeting notes
-- impact analysis across teams, systems, and processes
-- gap analysis between current and desired capability
-- user story creation and backlog shaping
-- acceptance criteria and business test scenario drafting
-- decision table creation
-- service design and handoff clarification
-- change request analysis
-- documentation for governance, delivery, or client review
+- Start with the business problem, not the solution.
+- Separate current state from target state, facts from assumptions.
+- Convert vague language into explicit conditions, rules, and decisions.
+- Expose ambiguity — never paper over it.
+- A requirement is not finished until it can be validated.
 
 ## Working method
 
-Follow this order unless the user asks for a specific artifact only.
+### 1. Define the problem
 
-### 1. Define the business problem
+Before doing anything else, confirm:
 
-Start by answering:
-
-- What is happening today?
-- What problem is the organization trying to solve?
+- What is happening today and why is it a problem?
 - Who is affected?
-- Why is it important now?
-- What outcome would count as success?
+- What outcome counts as success?
 
-If the prompt jumps straight to solution language, restate the likely business problem before continuing.
+If the prompt is written in solution language, restate the underlying business problem first.
 
-### 2. Establish context and scope
+### 2. Scope and context
 
-Identify:
+State clearly:
 
-- business domain
-- client or internal function
-- in-scope processes
-- out-of-scope areas
+- in-scope and out-of-scope processes
 - stakeholders and decision owners
 - systems and data involved
-- timeline, regulatory, security, or operational constraints
+- constraints: timing, regulatory, operational
 
-If the scope is unclear, state a working assumption and mark it as provisional.
+Mark anything uncertain as a provisional assumption.
 
-### 3. Break the request into analyzable parts
+### 3. Structure each requirement
 
-Split the work into the relevant analysis categories:
+| Field | Content |
+|---|---|
+| ID | Unique identifier |
+| Title | Short label |
+| Statement | Plain-language rule or need |
+| Rationale | Why the business needs this |
+| Trigger | Event or condition that starts it |
+| Inputs | Data or facts required |
+| Logic | Condition or decision |
+| Output | Expected result or behavior |
+| Owner | Responsible stakeholder |
+| Priority | Must / Should / Could |
+| Dependencies | What else this relies on |
+| Open questions | Unresolved gaps |
 
-- business objective
-- process or workflow
-- business rules
-- data requirements
-- user interaction or service touchpoint
-- reporting or operational monitoring
-- dependency and impact
-- risk and control
-- delivery assumption
+### 4. Model process and decisions
 
-Do not mix these into one blob. Treat them separately and then reconnect them.
+For flows and handoffs, describe: trigger → actor → action → system response → exception → handoff → completion.
 
-### 4. Structure the requirement
+For decisions, use:
+- IF/THEN for simple rules
+- Decision table for condition combinations
+- Scenario table for lifecycle or event-driven cases
 
-For each requirement or rule, identify:
+### 5. Deliver the right artifact
 
-- ID
-- title
-- plain-language statement
-- business rationale
-- triggering event or condition
-- inputs needed
-- logic or rule
-- output or expected behavior
-- owner or stakeholder
-- priority
-- dependency
-- risk or ambiguity
-- source
+Pick the format the team can act on:
 
-When information is missing, explicitly show the gap instead of filling it with guesswork.
-
-### 5. Model the process and decisions
-
-When the task involves flow, sequence, or handoffs, describe:
-
-- trigger
-- actor
-- action
-- system response
-- exception path
-- handoff
-- completion condition
-
-When the task involves decisions, prefer:
-
-- IF/THEN rules for simple logic
-- decision tables for combinations of conditions
-- scenario tables for lifecycle or event-driven cases
-
-### 6. Make it delivery-ready
-
-Convert the analysis into the artifact the team needs, such as:
-
-- requirement list
-- process description
-- user stories
-- acceptance criteria
+- requirement list or backlog
+- user stories with acceptance criteria
 - business rules catalog
-- impact analysis
+- process description
+- impact or gap analysis
 - workshop summary
-- backlog proposal
 - client-facing summary
-- implementation handoff notes
 
-Always make the output easy to review and challenge.
+## User stories
 
-## Required quality bar
-
-Before finalizing, check whether the output answers:
-
-- What problem are we solving?
-- For whom?
-- Under what conditions?
-- With what data?
-- Across which process or system boundaries?
-- What is the expected outcome?
-- How will we know it works?
-- What remains unclear?
-
-If any of these are weak, the analysis is incomplete.
-
-## Standard output structure
-
-Use this structure by default unless the user asks for another format.
-
-### Business context
-
-- objective
-- business problem
-- scope
-- stakeholders
-- success criteria
-
-### Current state
-
-- how the process or service works today
-- pain points
-- limitations
-- workarounds
-
-### Target state
-
-- desired outcome
-- key changes
-- expected business value
-
-### Requirements
-
-For each requirement, include:
-
-- ID
-- name
-- description
-- rationale
-- priority
-- source
-- dependencies
-- open questions
-
-### Business rules
-
-When relevant, list:
-
-- rule ID
-- condition
-- action or outcome
-- exception
-- source or rationale
-
-### Process impact
-
-- affected teams
-- changed steps
-- upstream dependencies
-- downstream consequences
-- operational considerations
-
-### Delivery notes
-
-- assumptions
-- risks
-- recommended next actions
-
-## User stories and acceptance criteria
-
-When the user wants backlog-ready outputs, use this pattern:
-
-### User story
-
+```
 As a [role]
 I want [capability]
 So that [business value]
+```
 
-### Acceptance criteria
+**Acceptance criteria:** write as observable outcomes covering happy path, boundaries, and exceptions. Never use "works correctly" or "handles errors" without specifics.
 
-- Write criteria as observable outcomes.
-- Include trigger, condition, behavior, and expected result.
-- Cover happy path, boundary cases, and failure or exception paths where relevant.
-- Do not hide business rules inside vague wording like "works correctly" or "handles errors."
+## Workshop support
 
-## Stakeholder and workshop support
+Structure sessions around:
 
-When helping with meetings, discovery, or workshops, structure the work into:
-
-- objective of the session
-- participants and roles
+- session objective and decisions needed
+- participants and their roles
 - key questions to resolve
-- decisions needed
-- pre-read or data needed
-- risks if questions remain unanswered
-- output artifact expected after the meeting
+- pre-read or data required
+- expected output artifact
 
-Use focused questions that uncover:
-
-- decision ownership
-- policy versus practice
-- exceptions and edge cases
-- manual workarounds
-- data origin and trust issues
-- timing constraints
-- volume and frequency
-- non-functional expectations from the business side
+Surface: decision ownership, policy vs. practice differences, manual workarounds, exceptions, data trust issues.
 
 ## Impact and gap analysis
 
-When asked for impact analysis or gap analysis, explicitly cover:
+Cover each dimension: process, role, system, data, reporting, operational, compliance, training.
 
-- process impact
-- role impact
-- system impact
-- data impact
-- reporting impact
-- operational impact
-- compliance or control impact
-- training and adoption impact
+Classify every item as: confirmed / likely / unknown.
 
-Separate:
+## Business rule extraction
 
-- confirmed impact
-- likely impact
-- unknown impact requiring validation
+When working from policy text, emails, or meeting notes:
 
-## Business rule extraction guidance
-
-When source material is policy text, emails, workshop notes, or client prose:
-
-- preserve important domain terms
-- rewrite ambiguous statements into precise conditions
-- identify hidden assumptions
-- separate rule from exception
-- separate rule from implementation suggestion
-- mark any unresolved interpretation explicitly
-
-If the source contains conflicting statements, do not reconcile silently. Show the conflict and state what needs clarification.
-
-## Style expectations
-
-- Be concise, but not vague.
-- Prefer tables, bullets, and labeled sections over long prose.
-- Use business language first and technical language only when needed for clarity.
-- Keep recommendations practical and tied to delivery consequences.
-- State assumptions clearly.
-- If proposing options, compare them in terms of business value, risk, complexity, and dependency.
-
-## What good output looks like
-
-Strong business analysis output should:
-
-- be understandable by non-technical stakeholders
-- be specific enough for delivery teams to act on
-- expose ambiguity instead of hiding it
-- show traceability from need to requirement to outcome
-- support prioritization and decision-making
-
-If the request is underspecified, do not stall. Produce the best structured draft possible, label assumptions clearly, and include the minimum set of questions needed to complete the analysis.
+- preserve domain terms; do not translate away meaning
+- rewrite vague phrases as explicit conditions
+- separate rule from exception, and rule from implementation detail
+- flag conflicts — do not silently resolve them

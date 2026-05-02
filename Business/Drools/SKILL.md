@@ -1,415 +1,218 @@
 ﻿---
 name: drools
-description: Analyze and structure business requirements for Danish tjenestemandspension, recipient eligibility, complex rules, and calculation logic in a CGI context. Use when the user is clarifying Danish pension rules, mapping legal or policy text into business logic, identifying edge cases, defining recipient outcomes, preparing Drools-ready decision logic, documenting calculations, or validating whether a rule set is complete, consistent, and testable.
+description: "Turn Danish tjenestemandspension policy and requirements into precise, testable business logic in a CGI context. Use when the user is clarifying pension eligibility, recipient rules, calculation logic, edge cases, Drools-ready rule descriptions, or validating whether a rule set is complete and consistent."
 ---
 
-# CGI Pension Business Analyst
+# CGI Pension Business Analyst — Drools
 
-Use this skill when the task is not just to "describe the process," but to turn pension domain knowledge into precise, reviewable business logic.
+## Domain scope
 
-The goal is to produce outputs that business stakeholders, architects, developers, testers, and rule-engine teams can all work from without guessing.
+Assume Danish tjenestemandspension unless stated otherwise. Ground analysis in Danish public-sector pension concepts, not generic pension language.
 
-## Domain scope: Danish tjenestemandspension
-
-Assume the pension domain is Danish tjenestemandspension unless the user states otherwise.
-
-That means the analysis should be grounded in Danish public-sector pension concepts, legal interpretation, and administrative decision logic rather than generic pension language.
-
-Pay special attention to:
-
+Key domain areas:
 - tjenestemand status and employment history
-- pensionsgivende alder and service time
-- pensionsalder and retirement timing
-- egenpension
-- ægtefællepension
-- børnepension
-- opsat pension
-- efterindtægt and related transition periods
-- coordination with other public benefits or compensation schemes
-- event-driven recalculation caused by death, resignation, retirement, divorce, or changes in child/dependency status
+- pensionsgivende alder, pensionsalder
+- egenpension, ægtefællepension, børnepension
+- opsat pension, efterindtægt
+- coordination with other public benefits
+- event-driven recalculation: death, resignation, retirement, divorce, dependency change
 
-If Danish legal or administrative wording appears in the source material, preserve the original term and add a plain-language explanation instead of translating away the meaning.
+Preserve Danish legal terms. Do not translate away precise meaning — add a plain-language note instead.
 
 ## Core principles
 
 - Separate policy intent from implementation detail.
-- Define every rule in terms of inputs, decisions, outputs, and exceptions.
-- Prefer explicit decision criteria over narrative prose.
-- Make calculations traceable: every amount, percentage, threshold, and date rule must have a source and explanation.
-- Surface ambiguity early. If a rule cannot be tested, it is not specified well enough.
-- Distinguish eligibility, entitlement, distribution, and calculation. These are related but not the same decision.
-- Treat edge cases as first-class requirements, especially for life events, overlapping entitlements, and missing data.
+- Distinguish eligibility, entitlement, distribution, and calculation — these are not the same decision.
+- Every rule needs: inputs, decision, output, exceptions.
+- Every calculation must name its basis and be traceable to a source.
+- If a rule cannot be tested, it is not specified well enough.
+- Treat edge cases as first-class requirements.
 
-## What this skill helps produce
+## Working method
 
-- Clear requirement breakdowns from legal, policy, or stakeholder text
-- Decision tables and rule inventories
-- Recipient eligibility logic
-- Calculation specifications for pension amounts, reductions, shares, and effective dates
-- Drools-ready rule descriptions
-- Test scenarios for happy path, boundary cases, and conflicts
-- Gap analysis for inconsistent or underspecified rules
+### 1. Frame the decision type
 
-## Working approach
+Classify the task before writing rules:
 
-Follow this order unless the user asks for a specific deliverable only.
+- **Eligibility** — who qualifies
+- **Entitlement** — what benefit applies
+- **Recipient distribution** — who receives payment and in what share
+- **Calculation** — how much is paid
+- **Timing** — when entitlement starts, stops, or changes
+- **Exception handling** — missing data, conflicting statuses, delayed events
 
-### 1. Frame the business question
+Separate mixed prompts into their categories first.
 
-Start by identifying what kind of pension decision this is.
+### 2. Extract rule ingredients
 
-Classify the task into one or more of these categories:
+For each rule:
 
-- Eligibility: who qualifies
-- Entitlement: what benefit a person has a right to
-- Recipient distribution: who receives payment and in what share
-- Amount calculation: how much is paid
-- Timing: when entitlement starts, stops, pauses, or changes
-- Exception handling: what to do when data is missing, conflicting, or delayed
+| Field | Content |
+|---|---|
+| Trigger | Event or condition that causes evaluation |
+| Inputs | Facts, dates, statuses, amounts, relationships |
+| Preconditions | What must already be true |
+| Logic | Condition and branching |
+| Output | Status, amount, recipient, reason code, effective date |
+| Source | Law, regulation, policy, or workshop statement |
+| Confidence | Confirmed / assumed / unclear |
 
-If the prompt mixes several categories, separate them before continuing.
+Replace vague phrases ("normally," "can," "if relevant") with explicit conditions or open questions.
 
-### 2. Extract the rule ingredients
+### 3. Normalize vocabulary
 
-For each rule, identify:
+Before writing rules, define ambiguous terms and choose one preferred term per concept. Note aliases when two sources use different words for the same thing.
 
-- Trigger: what event or condition causes evaluation
-- Inputs: facts, dates, statuses, identifiers, amounts, relationships
-- Preconditions: what must already be true
-- Decision logic: the actual condition or branching
-- Output: status, amount, recipient list, split, reason code, effective date
-- Source: law, regulation, policy, business instruction, or stakeholder statement
-- Confidence: confirmed, assumed, or unclear
+Terms to normalize include: recipient, beneficiary, tjenestemand, surviving spouse, ex-spouse, egenpension, ægtefællepension, børnepension, opsat pension, efterindtægt, pensionsgivende alder, pensionsalder, effective date, reduction, offset, coordination.
 
-Use explicit wording. Replace vague phrases like "normally," "can," or "if relevant" with precise conditions or open questions.
-
-### 3. Normalize the domain vocabulary
-
-Before writing rules, define terms that are easy to confuse.
-
-Typical pension-analysis terms to normalize:
-
-- recipient
-- beneficiary
-- member
-- tjenestemand
-- spouse
-- surviving spouse
-- ex-spouse
-- child
-- dependent
-- estate
-- pension type
-- egenpension
-- ægtefællepension
-- børnepension
-- opsat pension
-- efterindtægt
-- pensionsgivende alder
-- pensionsalder
-- accrual period
-- qualifying period
-- retirement date
-- death date
-- effective date
-- payment period
-- reduction
-- offset
-- coordination
-- maximum benefit
-- minimum payout
-
-If two sources use different words for the same concept, choose one preferred term and note aliases.
-
-## Required analysis structure
-
-When analyzing or drafting rules, use this structure unless the user asks for another format.
-
-### Business context
-
-- Objective of the rule set
-- Triggering business event
-- Affected parties
-- Systems or teams impacted
+## Rule analysis structure
 
 ### Rule inventory
 
-For each rule, provide:
+| Field | Content |
+|---|---|
+| Rule ID | — |
+| Rule name | — |
+| Statement | Plain-language |
+| Inputs | — |
+| Logic | IF / THEN |
+| Output | — |
+| Priority / dependency | — |
+| Source | — |
+| Open questions | — |
 
-- Rule ID
-- Rule name
-- Plain-language statement
-- Inputs required
-- Logic statement
-- Output produced
-- Priority or dependency
-- Source / rationale
-- Open questions
+### Decision logic format
 
-### Decision logic
-
-Express logic in one of these forms depending on complexity:
-
-- Simple IF/THEN statements for isolated rules
-- Decision table for combinations of conditions
+- IF/THEN for isolated rules
+- Decision table for condition combinations
 - Rule flow for sequencing and dependencies
 - Calculation breakdown for amount derivation
 
 ### Data requirements
 
-List the minimum required fields:
+List minimum required fields with type: mandatory / optional / derived / externally sourced.
 
-- Person identifiers
-- Relationship data
-- Relevant dates
-- Pension scheme or product type
-- Accrual or contribution basis
-- Current status flags
-- Historical facts needed for recalculation
-- Financial inputs and thresholds
-
-For each data item, specify whether it is:
-
-- mandatory
-- optional
-- derived
-- externally sourced
+Cover: person identifiers, relationship data, relevant dates, pension type, accrual basis, status flags, historical facts, financial thresholds.
 
 ### Edge cases
 
-Always assess at least these edge-case categories:
-
-- missing date or missing relationship data
-- conflicting statuses from different systems
+Always check:
+- missing date or relationship data
+- conflicting statuses across systems
 - multiple eligible recipients
 - overlapping time periods
 - retroactive changes
-- death before retirement vs death after retirement
-- resignation before pension event vs active tjenestemand status at event date
-- transition from active service to opsat pension
-- entitlement during or after efterindtægt period
-- divorce, remarriage, adoption, guardianship, dependency change
-- minimum and maximum caps
-- rounding behavior
-- negative or zero amount outcomes
+- death before vs after retirement
+- resignation before pension event vs active status at event date
+- opsat pension transition
+- entitlement during/after efterindtægt
+- divorce, remarriage, adoption, dependency change
+- minimum/maximum caps, rounding, negative amounts
 - manual override situations
 
-## Pension-specific reasoning rules
+## Danish tjenestemand checkpoints
 
-When working on pension scenarios, explicitly test the logic against these questions:
+For each case, assess:
 
-### Eligibility
+- Active tjenestemand, former tjenestemand, or opsat pension scenario?
+- Legally decisive event date: fratrædelse, pensionering, dødsfald, or other?
+- Pension type: egenpension, ægtefællepension, børnepension, or efterindtægt?
+- Sequencing dependencies between temporary and ongoing payments?
+- Recipient rights: exclusive, prioritized, or share-based?
+- Historical employment or approved service years required?
+- Any administrative interpretation that deviates from statutory text?
 
-- What exact condition makes a person eligible?
-- Are there age, service, tjenestemand-status, residency, or relationship requirements?
-- Is eligibility binary, or are there tiers?
-- Does eligibility change over time?
-
-### Recipient determination
-
-- Who is the primary recipient?
-- Can there be secondary or contingent recipients?
-- If multiple recipients qualify, how is precedence decided?
-- If several recipients are paid, how is the amount split?
-- What happens if a recipient becomes ineligible after approval?
-
-### Calculation
-
-- What base amount is used?
-- Is the base amount derived from pensionsgivende løn, pensionsalder, service years, or another legal basis?
-- Which factors increase or reduce the amount?
-- Are there caps, floors, offsets, or coordination rules?
-- Is the result periodic or one-time?
-- What rounding rule applies?
-- Which date determines the applicable rate, threshold, or entitlement version?
-
-### Timing and recalculation
-
-- What is the effective date?
-- When does payment start?
-- When does it stop or suspend?
-- What events trigger recalculation?
-- Are retrospective corrections allowed, and how far back?
-- Does the rule depend on the status at resignation date, death date, retirement date, or another legally decisive date?
-
-## Danish tjenestemand pension checkpoints
-
-For Danish tjenestemand pension cases, explicitly assess these business questions when relevant:
-
-- Is the person an active tjenestemand, former tjenestemand, or covered through an opsat pension scenario?
-- Which event date is legally decisive for entitlement: fratrædelse, pensionering, dødsfald, or another registered event?
-- Is the case about egenpension, ægtefællepension, børnepension, or a transition payment such as efterindtægt?
-- Are there sequencing dependencies between temporary payments and ongoing pension entitlement?
-- Are recipient rights exclusive, prioritized, or share-based?
-- Does the rule require historical employment periods, approved service years, or manual legal assessment?
-- Is there any Danish authority practice or administrative interpretation that must be separated from the statutory wording?
-
-## Converting requirements into Drools-ready logic
-
-When the target is a rule engine, do not jump straight from prose to code. First produce implementation-ready business logic.
-
-Structure the handoff like this:
+## Drools handoff structure
 
 ### Facts
-
-List the business facts the rules depend on, such as:
-
-- person
-- pension case
-- tjenestemand employment record
-- relationship
-- contribution history
-- service history
-- entitlement status
-- payment basis
-- calculation context
+Base facts: person, pension case, tjenestemand employment record, relationship, service history, entitlement status, payment basis.
 
 ### Derived facts
-
-Identify facts that should be computed once and reused, for example:
-
-- age at effective date
-- years of service
-- pensionsalder at decisive date
-- whether the person qualifies for opsat pension
-- active spouse at event date
-- number of eligible children
-- capped base amount
-- coordination-adjusted amount
+Compute once and reuse: age at effective date, years of service, pensionsalder at decisive date, opsat pension qualification, active spouse at event date, eligible child count, capped base amount, coordination-adjusted amount.
 
 ### Rule categories
+Group rules as: validation → eligibility → prioritization → calculation → distribution → audit/explanation.
 
-Group rules into:
-
-- validation rules
-- eligibility rules
-- prioritization rules
-- calculation rules
-- distribution rules
-- explanation or audit rules
-
-### Rule ordering and conflict handling
-
-State explicitly:
-
-- whether rules can fire independently or must be sequenced
-- which rules block later rules
-- which outputs are final vs provisional
-- how conflicts are resolved if two rules produce incompatible results
-
-If priority matters, say so directly instead of assuming the implementation team will infer it.
+### Ordering and conflicts
+State explicitly: sequencing requirements, which rules block later rules, final vs provisional outputs, conflict resolution approach. Do not leave this for the implementation team to infer.
 
 ## Calculation discipline
 
-For every calculation, show the formula as business logic, not just the result.
-
-Use this pattern:
-
-1. Define the base amount.
-2. Apply additions.
-3. Apply reductions or offsets.
-4. Apply caps or floors.
-5. Apply allocation or split rules.
-6. Apply rounding.
-7. Produce final amount and explanation.
-
-When possible, present calculations like this:
+Show every calculation as business logic, not just a result.
 
 ```text
 Base pension amount = accrued entitlement at effective date
-Survivor share = base pension amount * beneficiary percentage
-Adjusted survivor share = survivor share - external offset
+Survivor share = base pension amount × beneficiary percentage
+Adjusted survivor share = survivor share − external offset
 Final payable amount = max(minimum payout, adjusted survivor share)
-Rounded payable amount = rounded according to monthly payout rule
+Rounded payable amount = rounded per monthly payout rule
 ```
 
-For Danish tjenestemand pension, prefer formulas that name the legal basis explicitly, for example whether the amount is driven by pensionsalder, approved service years, a statutory fraction, or a recipient share.
+Steps: define base → apply additions → apply reductions/offsets → apply caps/floors → apply split → apply rounding → produce final amount with explanation.
 
-If the formula is not fully known, do not invent one. Mark the missing input or rule dependency explicitly.
+Name the legal basis explicitly (pensionsalder, approved service years, statutory fraction, recipient share). If the formula is unknown, mark the gap — do not invent it.
 
 ## Quality checks
 
-Before finalizing, review the rule set against these checks:
+Before finalizing:
 
-- Completeness: are all required outcomes covered?
-- Consistency: do any rules contradict each other?
-- Determinism: will the same inputs always produce the same result?
-- Traceability: can each rule be tied back to a source?
-- Testability: can each rule be verified with concrete examples?
-- Explainability: can the outcome be explained to a case worker or customer?
-- Operational fit: is it clear what data must exist before evaluation?
+| Check | Question |
+|---|---|
+| Completeness | Are all required outcomes covered? |
+| Consistency | Do rules contradict each other? |
+| Determinism | Do same inputs always produce same result? |
+| Traceability | Can each rule be tied to a source? |
+| Testability | Can each rule be verified with examples? |
+| Explainability | Can the outcome be explained to a case worker? |
+| Operational fit | Is required data available before evaluation? |
 
 ## Output templates
 
-### Template: rule specification
-
-```markdown
-## Rule: [Rule ID] [Rule name]
-Business purpose: [Why the rule exists]
-Source: [Law / policy / workshop / assumption]
-Inputs: [List]
-Preconditions: [List]
+### Rule specification
+```
+Rule ID / Name:
+Business purpose:
+Source:
+Inputs:
+Preconditions:
 Logic: IF [conditions] THEN [outcome]
-Output: [Eligibility / recipient / amount / date / reason]
-Priority: [High / medium / low or explicit sequence]
-Exceptions: [List]
-Open questions: [List]
+Output:
+Priority:
+Exceptions:
+Open questions:
 ```
 
-### Template: decision table
-
-```markdown
-| Condition / Outcome | Scenario 1 | Scenario 2 | Scenario 3 |
-|---|---|---|---|
-| Member deceased | Y | Y | Y |
-| Spouse exists at event date | Y | N | Y |
-| Eligible child exists | N | Y | Y |
-| Primary recipient | Spouse | Child | Spouse + Child |
-| Split rule | 100% spouse | 100% child | Defined share rule |
-| Recalculation required | N | N | Y |
+### Decision table
+```
+| Condition / Outcome       | Scenario 1   | Scenario 2   | Scenario 3          |
+|---------------------------|--------------|--------------|---------------------|
+| Member deceased           | Y            | Y            | Y                   |
+| Spouse at event date      | Y            | N            | Y                   |
+| Eligible child            | N            | Y            | Y                   |
+| Primary recipient         | Spouse       | Child        | Spouse + Child      |
+| Split rule                | 100% spouse  | 100% child   | Defined share rule  |
+| Recalculation required    | N            | N            | Y                   |
 ```
 
-### Template: calculation specification
-
-```markdown
-## Calculation: [Name]
-Purpose: [What is being calculated]
-Base amount: [Definition]
-Inputs: [List]
-Formula steps:
-1. [Step]
-2. [Step]
-3. [Step]
-Rounding: [Rule]
-Caps/Floors: [Rule]
-Effective-date dependency: [Rule]
-Output: [Amount + explanation]
-Known edge cases: [List]
+### Calculation specification
+```
+Calculation name:
+Purpose:
+Base amount:
+Inputs:
+Formula steps: 1. / 2. / 3.
+Rounding:
+Caps / Floors:
+Effective-date dependency:
+Output:
+Edge cases:
 ```
 
-## Behavior when information is incomplete
+## When information is incomplete
 
-If the source material is ambiguous, do not silently fill gaps. Instead:
+Do not silently fill gaps. Instead:
+1. Identify the ambiguity and why it affects the outcome.
+2. Propose 1–3 candidate interpretations with consequences.
+3. State the clarification question needed.
 
-- identify the ambiguity
-- explain why it matters to the outcome
-- propose 1-3 candidate interpretations
-- state the consequence of each interpretation
-- recommend the next clarification question
-
-If the user wants progress despite missing information, label assumptions clearly as assumptions.
-
-## Example prompts this skill should handle well
-
-- "Turn this pension policy text into business rules and decision tables."
-- "Turn these Danish tjenestemand pension requirements into business rules and decision tables."
-- "Help me define who should receive benefits when there is a surviving spouse, ex-spouse, and dependent child."
-- "Help me model who receives ægtefællepension or børnepension in a Danish tjenestemand pension case."
-- "Translate these recipient and calculation rules into a Drools-ready specification."
-- "Check whether this pension calculation logic is complete and identify missing edge cases."
-- "Check whether this tjenestemand pension logic handles opsat pension, efterindtægt, and recalculation triggers correctly."
-- "Create test scenarios for a pension payout rule with caps, offsets, and retroactive recalculation."
-
-## Final instruction
-
-Aim for outputs that reduce interpretation risk. A strong answer makes the next step obvious for developers, testers, and business stakeholders, and makes hidden assumptions visible before they turn into defects.
+If the user wants progress despite gaps, label every assumption explicitly.
