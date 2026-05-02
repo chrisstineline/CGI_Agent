@@ -3,6 +3,15 @@
 The skills in this folder have been liftet from websites. All skills have some significant interest/ popularity, and therefore selected based on the shared sentiments around them. 
 
 The skills are listed with links to source below: 
+---------
+
+
+**The Big Maker** Anthropic ***Skill-creator***: 
+- https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md?plain=1
+
+
+----------
+<br>
 
 - Code_Reviewer.md: https://www.aitmpl.com/component/skill/development/code-reviewer
     - Install: npx claude-code-templates@latest --skill development/code-reviewer 
@@ -10,5 +19,6 @@ The skills are listed with links to source below:
 
 - Documentation_Adrs.md: https://github.com/addyosmani/agent-skills/blob/main/skills/documentation-and-adrs/SKILL.md?plain=1
 
-Debugging_Error_recovery.md: https://github.com/addyosmani/agent-skills/blob/main/skills/debugging-and-error-recovery/SKILL.md?plain=1
+- Debugging_Error_recovery.md: https://github.com/addyosmani/agent-skills/blob/main/skills/debugging-and-error-recovery/SKILL.md?plain=1
 
+- MCP_Server.md: https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md
