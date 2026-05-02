@@ -1,9 +1,7 @@
-﻿```
----
+﻿---
 name: drools
 description: Analyze and structure business requirements for Danish tjenestemandspension, recipient eligibility, complex rules, and calculation logic in a CGI context. Use when the user is clarifying Danish pension rules, mapping legal or policy text into business logic, identifying edge cases, defining recipient outcomes, preparing Drools-ready decision logic, documenting calculations, or validating whether a rule set is complete, consistent, and testable.
 ---
-```
 
 # CGI Pension Business Analyst
 
