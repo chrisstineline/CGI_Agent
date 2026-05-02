@@ -1,13 +1,36 @@
-﻿---
-name: drools
-description: Analyze and structure business requirements for pensions, recipient eligibility, complex rules, and calculation logic in a CGI context. Use when the user is clarifying pension rules, mapping legal or policy text into business logic, identifying edge cases, defining recipient outcomes, preparing Drools-ready decision logic, documenting calculations, or validating whether a rule set is complete, consistent, and testable.
+﻿```
 ---
+name: drools
+description: Analyze and structure business requirements for Danish tjenestemandspension, recipient eligibility, complex rules, and calculation logic in a CGI context. Use when the user is clarifying Danish pension rules, mapping legal or policy text into business logic, identifying edge cases, defining recipient outcomes, preparing Drools-ready decision logic, documenting calculations, or validating whether a rule set is complete, consistent, and testable.
+---
+```
 
 # CGI Pension Business Analyst
 
 Use this skill when the task is not just to "describe the process," but to turn pension domain knowledge into precise, reviewable business logic.
 
 The goal is to produce outputs that business stakeholders, architects, developers, testers, and rule-engine teams can all work from without guessing.
+
+## Domain scope: Danish tjenestemandspension
+
+Assume the pension domain is Danish tjenestemandspension unless the user states otherwise.
+
+That means the analysis should be grounded in Danish public-sector pension concepts, legal interpretation, and administrative decision logic rather than generic pension language.
+
+Pay special attention to:
+
+- tjenestemand status and employment history
+- pensionsgivende alder and service time
+- pensionsalder and retirement timing
+- egenpension
+- ægtefællepension
+- børnepension
+- opsat pension
+- efterindtægt and related transition periods
+- coordination with other public benefits or compensation schemes
+- event-driven recalculation caused by death, resignation, retirement, divorce, or changes in child/dependency status
+
+If Danish legal or administrative wording appears in the source material, preserve the original term and add a plain-language explanation instead of translating away the meaning.
 
 ## Core principles
 
@@ -71,12 +94,21 @@ Typical pension-analysis terms to normalize:
 - recipient
 - beneficiary
 - member
+- tjenestemand
 - spouse
+- surviving spouse
 - ex-spouse
 - child
 - dependent
 - estate
 - pension type
+- egenpension
+- ægtefællepension
+- børnepension
+- opsat pension
+- efterindtægt
+- pensionsgivende alder
+- pensionsalder
 - accrual period
 - qualifying period
 - retirement date
@@ -155,6 +187,9 @@ Always assess at least these edge-case categories:
 - overlapping time periods
 - retroactive changes
 - death before retirement vs death after retirement
+- resignation before pension event vs active tjenestemand status at event date
+- transition from active service to opsat pension
+- entitlement during or after efterindtægt period
 - divorce, remarriage, adoption, guardianship, dependency change
 - minimum and maximum caps
 - rounding behavior
@@ -168,7 +203,7 @@ When working on pension scenarios, explicitly test the logic against these quest
 ### Eligibility
 
 - What exact condition makes a person eligible?
-- Are there age, service, contribution, residency, or relationship requirements?
+- Are there age, service, tjenestemand-status, residency, or relationship requirements?
 - Is eligibility binary, or are there tiers?
 - Does eligibility change over time?
 
@@ -183,6 +218,7 @@ When working on pension scenarios, explicitly test the logic against these quest
 ### Calculation
 
 - What base amount is used?
+- Is the base amount derived from pensionsgivende løn, pensionsalder, service years, or another legal basis?
 - Which factors increase or reduce the amount?
 - Are there caps, floors, offsets, or coordination rules?
 - Is the result periodic or one-time?
@@ -196,6 +232,19 @@ When working on pension scenarios, explicitly test the logic against these quest
 - When does it stop or suspend?
 - What events trigger recalculation?
 - Are retrospective corrections allowed, and how far back?
+- Does the rule depend on the status at resignation date, death date, retirement date, or another legally decisive date?
+
+## Danish tjenestemand pension checkpoints
+
+For Danish tjenestemand pension cases, explicitly assess these business questions when relevant:
+
+- Is the person an active tjenestemand, former tjenestemand, or covered through an opsat pension scenario?
+- Which event date is legally decisive for entitlement: fratrædelse, pensionering, dødsfald, or another registered event?
+- Is the case about egenpension, ægtefællepension, børnepension, or a transition payment such as efterindtægt?
+- Are there sequencing dependencies between temporary payments and ongoing pension entitlement?
+- Are recipient rights exclusive, prioritized, or share-based?
+- Does the rule require historical employment periods, approved service years, or manual legal assessment?
+- Is there any Danish authority practice or administrative interpretation that must be separated from the statutory wording?
 
 ## Converting requirements into Drools-ready logic
 
@@ -209,8 +258,10 @@ List the business facts the rules depend on, such as:
 
 - person
 - pension case
+- tjenestemand employment record
 - relationship
 - contribution history
+- service history
 - entitlement status
 - payment basis
 - calculation context
@@ -221,6 +272,8 @@ Identify facts that should be computed once and reused, for example:
 
 - age at effective date
 - years of service
+- pensionsalder at decisive date
+- whether the person qualifies for opsat pension
 - active spouse at event date
 - number of eligible children
 - capped base amount
@@ -271,6 +324,8 @@ Adjusted survivor share = survivor share - external offset
 Final payable amount = max(minimum payout, adjusted survivor share)
 Rounded payable amount = rounded according to monthly payout rule
 ```
+
+For Danish tjenestemand pension, prefer formulas that name the legal basis explicitly, for example whether the amount is driven by pensionsalder, approved service years, a statutory fraction, or a recipient share.
 
 If the formula is not fully known, do not invent one. Mark the missing input or rule dependency explicitly.
 
@@ -349,9 +404,12 @@ If the user wants progress despite missing information, label assumptions clearl
 ## Example prompts this skill should handle well
 
 - "Turn this pension policy text into business rules and decision tables."
+- "Turn these Danish tjenestemand pension requirements into business rules and decision tables."
 - "Help me define who should receive benefits when there is a surviving spouse, ex-spouse, and dependent child."
+- "Help me model who receives ægtefællepension or børnepension in a Danish tjenestemand pension case."
 - "Translate these recipient and calculation rules into a Drools-ready specification."
 - "Check whether this pension calculation logic is complete and identify missing edge cases."
+- "Check whether this tjenestemand pension logic handles opsat pension, efterindtægt, and recalculation triggers correctly."
 - "Create test scenarios for a pension payout rule with caps, offsets, and retroactive recalculation."
 
 ## Final instruction
